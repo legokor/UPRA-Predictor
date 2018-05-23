@@ -1,5 +1,10 @@
 #include "vecs.h"
 
+vec2 vec2::from_polar(double r, double phi_deg) {
+    double phi = phi_deg / 180 * M_PI;
+    return vec2(r * -sin(phi), r * -cos(phi));
+}
+
 double dot(const vec2& v1, const vec2& v2) {
 	return (v1.x * v2.x + v1.y * v2.y);
 }

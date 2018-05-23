@@ -1,7 +1,9 @@
 #pragma once
+#include <memory>
 #include "units.hpp"
 #include "dataset.hpp"
 #include "balloonproperties.h"
+#include "weatherdata.h"
 #include "coords.h"
 #include "vecs.h"
 
@@ -14,12 +16,8 @@ class BalloonFlight {
 
     BalloonProperties balloonProps;
 
-    /// Nyomás, a magasság függvényében (OMSZ adatból) Pascal
-    Dataset<units::height, units::pressure> defPressures;
-    /// Hőmérséklet, a magasság függvényében (OMSZ adatból) Kelvin
-    Dataset<units::height, units::temperature> defTemperatures;
-    /// Szélirány, szélsebesség, a magasság függvényében (OMSZ adatból) m/s, derékszögű koordinátarendzser
-    Dataset<units::height, vec2> defWindVels;
+    /// OMSZ légköri adatok
+    std::shared_ptr<WeatherData> wdata;
 
     /// Emelkedés során mért tényleges széladatok
     Dataset<units::height, vec2> ascentWindVels;
@@ -41,7 +39,7 @@ class BalloonFlight {
 
 public:
 
-    BalloonFlight(BalloonProperties props);
+    BalloonFlight(BalloonProperties props, std::shared_ptr<WeatherData> wdata_);
 
     /// Új mért adat felvétele
     void recieveBalloonData(units::time_point t, coords loc);
@@ -55,6 +53,8 @@ public:
 private:
     /// Szélsebesség elkérése az adott magasságon
     vec2 getWindVel(units::height h);
-    /// Emelkedési/süllyesési sebesség elkérése az adott magasságon
-    units::speed getVerticalVel(bool ascent, units::height h);
+    /// Emelkedési sebesség elkérése az adott magasságon
+    units::speed getAscentVel(units::height h);
+    /// Ereszkedési sebesség elkérése az adott magasságon
+    units::speed getDescentVel(units::height h);
 };

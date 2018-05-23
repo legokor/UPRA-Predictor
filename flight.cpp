@@ -1,16 +1,18 @@
 #include "flight.h"
 
-BalloonFlight::BalloonFlight(BalloonProperties props): balloonProps{props} {
+BalloonFlight::BalloonFlight(BalloonProperties props, std::shared_ptr<WeatherData> wdata_):
+    balloonProps{props}, wdata{wdata_} {
     // TODO: density at 0m
-    units::density density = defPressures.getAt(0) / SPECIFIC_GAS_CONST / defTemperatures.getAt(0);
+    units::density density = wdata->pressureAt(0) / SPECIFIC_GAS_CONST / wdata->temperatureAt(0);
 
     units::length balloonGndDiam = 2 * pow(double((balloonProps.NECK_LIFT + balloonProps.BALLOON_DRY_MASS) / density / (4.0/3*M_PI)), 1.0/3);
 
     // TODO: Korrekció hélium tömegével
 
     ascentVel = sqrt(double(
-        (balloonProps.NECK_LIFT - balloonProps.PARACHUTE_DRY_MASS - balloonProps.PAYLOAD_DRY_MASS) * 2.0
-        * G / ( density * balloonProps.BALLOON_DRAG_C * pow((double)balloonGndDiam,2)*M_PI/4 ) ));
+        (balloonProps.NECK_LIFT - balloonProps.PARACHUTE_DRY_MASS - balloonProps.PAYLOAD_DRY_MASS)
+        * 2.0 * G / ( density * balloonProps.BALLOON_DRAG_C * pow((double)balloonGndDiam,2)*M_PI/4 )
+    ));
 }
 
 
@@ -30,7 +32,7 @@ void BalloonFlight::recieveBalloonData(units::time_point t, coords loc) {
 
 coords BalloonFlight::predictNext(coords lastLoc, units::time dt, bool isAscent) {
     coords newLoc = lastLoc + getWindVel(lastLoc.alt) * (double) dt;
-    newLoc.alt = newLoc.alt + getVerticalVel(isAscent, lastLoc.alt) * dt;
+    newLoc.alt = newLoc.alt + (isAscent ? getAscentVel(lastLoc.alt) : getDescentVel(lastLoc.alt)) * dt;
     return newLoc;
 }
 
@@ -54,17 +56,17 @@ vec2 BalloonFlight::getWindVel(units::height h) {
     if (h < ascentWindVels.getLastKey()) {
         return ascentWindVels.getAt(h);
     } else {
-        return defWindVels.getAt(h);
+        return wdata->windVelAt(h);
     }
 }
 
-units::speed BalloonFlight::getVerticalVel(bool ascent, units::height h) {
-    if (ascent) {
-        return ascentVel;
-    } else {
-        // Levegősűrűség számítása a jelenlegi magasságon
-        units::density density = defPressures.getAt(h) / SPECIFIC_GAS_CONST / defTemperatures.getAt(h);
+units::speed BalloonFlight::getAscentVel(units::height h) {
+    return ascentVel;
+}
 
-        return -sqrt(double( balloonProps.DESCENT_MASS * G / ( density * balloonProps.PARACHUTE_DRAG_C * balloonProps.PARACHUTE_AREA ) * 2 ));
-    }
+units::speed BalloonFlight::getDescentVel(units::height h) {
+    // Levegősűrűség számítása a jelenlegi magasságon
+    units::density density = wdata->pressureAt(h) / SPECIFIC_GAS_CONST / wdata->temperatureAt(h);
+
+    return -sqrt(double( balloonProps.DESCENT_MASS * G / ( density * balloonProps.PARACHUTE_DRAG_C * balloonProps.PARACHUTE_AREA ) * 2 ));
 }

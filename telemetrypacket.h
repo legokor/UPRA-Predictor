@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -11,6 +12,7 @@
 
 
 /*
+UPRA packet format:
 $$CCCCCCC,iii,hhmmss,(+/-)xxxx.xxx,(+/-)xxxxx.xxx,aaaaa,eeee,ooo,rrr,
 
 $$ 	START bytes

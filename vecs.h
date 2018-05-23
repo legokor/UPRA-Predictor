@@ -4,10 +4,7 @@
 struct vec2 {
 	double x, y;
 
-
-    static vec2 polarVec(double r, double phi) {
-        return vec2(r * -sin(phi), r * -cos(phi));
-    }
+    static vec2 from_polar(double r, double phi_deg);
 
 	vec2(double x0, double y0) { x = x0; y = y0; }
 
