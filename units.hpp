@@ -1,14 +1,25 @@
 #pragma once
 #include <iostream>
+#include <chrono>
 
 namespace units {
     /* quantity in SI unit */
     template <int M, int KG, int S, int K>
     class Quantity {
-    public:
         double magnitude;
+    public:
         constexpr Quantity(double magnitude = 0): magnitude{magnitude} {}
         constexpr explicit operator double() const { return magnitude; }
+    };
+
+    template <>
+    class Quantity<0,0,1,0> {
+        std::chrono::seconds t;
+    public:
+        constexpr Quantity<0,0,1,0>(double magnitude = 0): t{(long)magnitude} {}
+        constexpr Quantity<0,0,1,0>(std::chrono::seconds t_): t{t_} {}
+        constexpr explicit operator double() const { return t.count(); }
+        constexpr std::chrono::seconds dur() { return t; }
     };
 
     /* short names for quantities */
@@ -31,67 +42,67 @@ namespace units {
     /* operators for quantities */
     template <int M, int KG, int S, int K>
     Quantity<M, KG, S, K> operator+(Quantity<M, KG, S, K> a, Quantity<M, KG, S, K> b) {
-        return Quantity<M, KG, S, K>{a.magnitude + b.magnitude};
+        return Quantity<M, KG, S, K>{double(a) + double(b)};
     }
 
     template <int M, int KG, int S, int K>
     Quantity<M, KG, S, K> operator+(Quantity<M, KG, S, K> a, double b) {
-        return Quantity<M, KG, S, K>{a.magnitude + b};
+        return Quantity<M, KG, S, K>{double(a) + b};
     }
 
     template <int M, int KG, int S, int K>
     Quantity<M, KG, S, K> operator-(Quantity<M, KG, S, K> a, Quantity<M, KG, S, K> b) {
-        return Quantity<M, KG, S, K>{a.magnitude - b.magnitude};
+        return Quantity<M, KG, S, K>{double(a) - double(b)};
     }
 
     template <int M, int KG, int S, int K>
     Quantity<M, KG, S, K> operator-(Quantity<M, KG, S, K> a, double b) {
-        return Quantity<M, KG, S, K>{a.magnitude - b};
+        return Quantity<M, KG, S, K>{double(a) - b};
     }
 
     template <int M1, int KG1, int S1, int K1, int M2, int KG2, int S2, int K2>
     Quantity<M1+M2, KG1+KG2, S1+S2, K1+K2> operator*(Quantity<M1, KG1, S1, K1> a, Quantity<M2, KG2, S2, K2> b) {
-        return Quantity<M1+M2, KG1+KG2, S1+S2, K1+K2>{a.magnitude * b.magnitude};
+        return Quantity<M1+M2, KG1+KG2, S1+S2, K1+K2>{double(a) * double(b)};
     }
 
     template <int M, int KG, int S, int K>
     Quantity<M, KG, S, K> operator*(Quantity<M, KG, S, K> a, double b) {
-        return Quantity<M, KG, S, K>{a.magnitude * b};
+        return Quantity<M, KG, S, K>{double(a) * b};
     }
 
     template <int M1, int KG1, int S1, int K1, int M2, int KG2, int S2, int K2>
     Quantity<M1-M2, KG1-KG2, S1-S2, K1-K2> operator/(Quantity<M1, KG1, S1, K1> a, Quantity<M2, KG2, S2, K2> b) {
-        return Quantity<M1-M2, KG1-KG2, S1-S2, K1-K2>{a.magnitude / b.magnitude};
+        return Quantity<M1-M2, KG1-KG2, S1-S2, K1-K2>{double(a) / double(b)};
     }
 
     template <int M, int KG, int S, int K>
     Quantity<M, KG, S, K> operator/(Quantity<M, KG, S, K> a, double b) {
-        return Quantity<M, KG, S, K>{a.magnitude / b};
+        return Quantity<M, KG, S, K>{double(a) / b};
     }
 
     template <int M, int KG, int S, int K>
     bool operator<(Quantity<M, KG, S, K> a, Quantity<M, KG, S, K> b) {
-        return a.magnitude < b.magnitude;
+        return double(a) < double(b);
     }
 
     template <int M, int KG, int S, int K>
     bool operator>(Quantity<M, KG, S, K> a, Quantity<M, KG, S, K> b) {
-        return a.magnitude > b.magnitude;
+        return double(a) > double(b);
     }
 
     template <int M, int KG, int S, int K>
     bool operator>=(Quantity<M, KG, S, K> a, Quantity<M, KG, S, K> b) {
-        return a.magnitude >= b.magnitude;
+        return double(a) >= double(b);
     }
 
     template <int M, int KG, int S, int K>
     bool operator<=(Quantity<M, KG, S, K> a, Quantity<M, KG, S, K> b) {
-        return a.magnitude <= b.magnitude;
+        return double(a) <= double(b);
     }
 
     template <int M, int KG, int S, int K>
     bool operator==(Quantity<M, KG, S, K> a, Quantity<M, KG, S, K> b) {
-        return a.magnitude == b.magnitude;
+        return double(a) == double(b);
     }
 
 
