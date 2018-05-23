@@ -7,7 +7,6 @@
 
 
 class BalloonFlight {
-    using time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>;
     /// Specific gas constant of dry air
     constexpr static const units::Quantity<2, 0, -2, -1> SPECIFIC_GAS_CONST = 287.058;
     /// Gravity
@@ -29,7 +28,7 @@ class BalloonFlight {
     Dataset<units::height, vec2> descentWindVels;
 
     /// Tényleges vett ballonadatok
-    std::vector<std::pair<time_point, coords>> balloonData;
+    std::vector<std::pair<units::time_point, coords>> balloonData;
 
     /// Éppen emelkedünk-e
     bool isAscent;
@@ -45,7 +44,7 @@ public:
     BalloonFlight(BalloonProperties props);
 
     /// Új mért adat felvétele
-    void recieveBalloonData(time_point t, coords loc);
+    void recieveBalloonData(units::time_point t, coords loc);
 
     /// Új predikciós adatpont számítása az előzőből és a rendelkezésre álló adatokból
     coords predictNext(coords lastData, units::time dt, bool isAscent);

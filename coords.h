@@ -18,6 +18,7 @@ struct coords {
     // How many metres is 1 degree of longitude on given latitude
     static double metresToLonRatio(double latitude);
 
+    coords(): lat{0}, lon{0}, alt{0} {}
     coords(double latitude, double longitude, units::height altitude):
         lat{latitude}, lon{longitude}, alt{altitude} {}
 

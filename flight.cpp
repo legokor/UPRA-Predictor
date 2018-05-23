@@ -14,7 +14,7 @@ BalloonFlight::BalloonFlight(BalloonProperties props): balloonProps{props} {
 }
 
 
-void BalloonFlight::recieveBalloonData(time_point t, coords loc) {
+void BalloonFlight::recieveBalloonData(units::time_point t, coords loc) {
     coords prevLoc = balloonData.back().second;
     units::time dt = t - balloonData.back().first;
     // Elmozdulás a leutóbbi mért helyzethez képest
