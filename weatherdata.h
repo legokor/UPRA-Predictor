@@ -12,11 +12,19 @@ class WeatherData {
     /// Szélirány, szélsebesség, a magasság függvényében (OMSZ adatból) m/s, derékszögű koordinátarendzser
     Dataset<units::height, vec2> windVels;
 
+    /// Emelkedés során mért tényleges széladatok
+    Dataset<units::height, vec2> ascentWindVels;
+    /// Ereszkedés során mért tényleges széladatok (egyelőre nem használt)
+    Dataset<units::height, vec2> descentWindVels;
+
+
+
 public:
     WeatherData(std::string filename);
 
     units::pressure pressureAt(units::height h) { return pressures.getAt(h); }
     units::temperature temperatureAt(units::height h) { return temperatures.getAt(h); }
-    vec2 windVelAt(units::height h) { return windVels.getAt(h); }
-
+    vec2 windVelAt(units::height h);
+    void addAscentWindData(units::height h, vec2 wVel) { ascentWindVels.addDataPoint(h, wVel); }
+    void addDescentWindData(units::height h, vec2 wVel) { descentWindVels.addDataPoint(h, wVel); }
 };

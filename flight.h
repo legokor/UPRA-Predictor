@@ -17,15 +17,9 @@ class BalloonFlight {
     BalloonProperties balloonProps;
 
     /// OMSZ légköri adatok
-    std::shared_ptr<WeatherData> wdata;
+    std::unique_ptr<WeatherData> wdata;
 
-    /// Emelkedés során mért tényleges széladatok
-    Dataset<units::height, vec2> ascentWindVels;
-
-    /// Ereszkedés során mért tényleges széladatok (egyelőre nem használt)
-    Dataset<units::height, vec2> descentWindVels;
-
-    /// Tényleges vett ballonadatok
+   /// Tényleges vett ballonadatok
     std::vector<std::pair<units::time_point, coords>> balloonData;
 
     /// Éppen emelkedünk-e
@@ -39,7 +33,7 @@ class BalloonFlight {
 
 public:
 
-    BalloonFlight(BalloonProperties props, std::shared_ptr<WeatherData> wdata_);
+    BalloonFlight(BalloonProperties props, std::unique_ptr<WeatherData> wdata_);
 
     /// Új mért adat felvétele
     void recieveBalloonData(units::time_point t, coords loc);
@@ -51,8 +45,6 @@ public:
     auto predict(std::pair<units::time, coords> startPoint, units::time timeStep);
 
 private:
-    /// Szélsebesség elkérése az adott magasságon
-    vec2 getWindVel(units::height h);
     /// Emelkedési sebesség elkérése az adott magasságon
     units::speed getAscentVel(units::height h);
     /// Ereszkedési sebesség elkérése az adott magasságon
