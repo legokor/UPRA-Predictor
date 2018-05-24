@@ -18,7 +18,7 @@ BalloonFlight::BalloonFlight(BalloonProperties props, std::unique_ptr<WeatherDat
 
 void BalloonFlight::recieveBalloonData(units::time_point t, coords loc) {
     coords prevLoc = balloonData.back().second;
-    units::time dt = t - balloonData.back().first;
+    units::time dt = units::time(t - balloonData.back().first);
     // Elmozdulás a leutóbbi mért helyzethez képest
     vec3 locDelta = loc - prevLoc;
     if (isAscent && loc.alt < prevLoc.alt) {
@@ -36,8 +36,8 @@ coords BalloonFlight::predictNext(coords lastLoc, units::time dt, bool isAscent)
     return newLoc;
 }
 
-auto BalloonFlight::predict(std::pair<units::time, coords> startPoint, units::time timeStep) {
-    std::vector<std::pair<units::time, coords>> prediction;
+auto BalloonFlight::predict(std::pair<units::time_point, coords> startPoint, units::time timeStep) {
+    std::vector<std::pair<units::time_point, coords>> prediction;
     auto currentPoint = startPoint;
     bool isSimulatedAscent = isAscent;
 

@@ -42,7 +42,7 @@ public:
     coords predictNext(coords lastData, units::time dt, bool isAscent);
 
     /// Új predikció készítése a legutóbbi tényleges mért adatból
-    auto predict(std::pair<units::time, coords> startPoint, units::time timeStep);
+    auto predict(std::pair<units::time_point, coords> startPoint, units::time timeStep);
 
 private:
     /// Emelkedési sebesség elkérése az adott magasságon

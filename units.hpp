@@ -17,9 +17,9 @@ namespace units {
         std::chrono::seconds t;
     public:
         constexpr Quantity<0,0,1,0>(double magnitude = 0): t{(long)magnitude} {}
-        constexpr Quantity<0,0,1,0>(std::chrono::seconds t_): t{t_} {}
+        constexpr explicit Quantity<0,0,1,0>(std::chrono::seconds t_): t{t_} {}
         constexpr explicit operator double() const { return t.count(); }
-        constexpr std::chrono::seconds dur() { return t; }
+        constexpr operator std::chrono::seconds() { return t; }
     };
     using time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>;
 
@@ -106,6 +106,15 @@ namespace units {
         return double(a) == double(b);
     }
 
+    time_point operator+(time_point t, time dur) {
+        t += dur;
+        return t;
+    }
+
+    time_point operator-(time_point t, time dur) {
+        t -= dur;
+        return t;
+    }
 
     /* generic stream inserter operator for quantities */
     template <int M, int KG, int S, int K>
@@ -150,14 +159,6 @@ namespace units {
 
         constexpr length operator "" _km (long double magnitude) {
             return length(magnitude * 1000.0);
-        }
-
-        constexpr time operator "" _s (long double magnitude) {
-            return time(magnitude);
-        }
-
-        constexpr time operator "" _h (long double magnitude) {
-            return time(magnitude * 3600);
         }
 
         constexpr mass operator "" _kg (long double magnitude) {
