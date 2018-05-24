@@ -36,9 +36,9 @@ coords BalloonFlight::predictNext(coords lastLoc, units::time dt, bool isAscent)
     return newLoc;
 }
 
-auto BalloonFlight::predict(std::pair<units::time_point, coords> startPoint, units::time timeStep) {
+std::vector<std::pair<units::time_point, coords>> BalloonFlight::predict(units::time timeStep) {
     std::vector<std::pair<units::time_point, coords>> prediction;
-    auto currentPoint = startPoint;
+    auto currentPoint = balloonData.back(); //Start from last recieved location
     bool isSimulatedAscent = isAscent;
 
     while (isSimulatedAscent || currentPoint.second.alt > units::height(0.0)) {
@@ -46,7 +46,7 @@ auto BalloonFlight::predict(std::pair<units::time_point, coords> startPoint, uni
         if (isSimulatedAscent && newLoc.alt >= expectedBurstAlt) {
             isSimulatedAscent = false;
         }
-        currentPoint = std::make_pair(startPoint.first + timeStep, newLoc);
+        currentPoint = std::make_pair(currentPoint.first + timeStep, newLoc);
         prediction.push_back(currentPoint);
     }
     return prediction;
@@ -60,5 +60,5 @@ units::speed BalloonFlight::getDescentVel(units::height h) {
     // Levegősűrűség számítása a jelenlegi magasságon
     units::density density = wdata->pressureAt(h) / SPECIFIC_GAS_CONST / wdata->temperatureAt(h);
 
-    return -sqrt(double( balloonProps.DESCENT_MASS * G / ( density * balloonProps.PARACHUTE_DRAG_C * balloonProps.PARACHUTE_AREA ) * 2 ));
+    return -sqrt(double( (balloonProps.PARACHUTE_DRY_MASS + balloonProps.PAYLOAD_DRY_MASS) * G / ( density * balloonProps.PARACHUTE_DRAG_C * balloonProps.PARACHUTE_AREA ) * 2 ));
 }

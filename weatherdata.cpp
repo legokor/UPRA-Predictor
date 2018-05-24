@@ -1,9 +1,9 @@
 #include "weatherdata.h"
 
-WeatherData::WeatherData(std::string filename) {
-    std::ifstream datafile(filename);
-
-    for (std::string datapoint; std::getline(datafile, datapoint);) {
+WeatherData::WeatherData(std::istream& is) {
+    std::string datapoint;
+    std::getline(is, datapoint);
+    for (; is && datapoint != "."; std::getline(is, datapoint)) {
         std::istringstream dp_s(datapoint);
         double pres; //Pressure (hPa)
         double hght; //Height (m)

@@ -19,7 +19,7 @@ class BalloonFlight {
     /// OMSZ légköri adatok
     std::unique_ptr<WeatherData> wdata;
 
-   /// Tényleges vett ballonadatok
+    /// Tényleges vett ballonadatok
     std::vector<std::pair<units::time_point, coords>> balloonData;
 
     /// Éppen emelkedünk-e
@@ -42,7 +42,7 @@ public:
     coords predictNext(coords lastData, units::time dt, bool isAscent);
 
     /// Új predikció készítése a legutóbbi tényleges mért adatból
-    auto predict(std::pair<units::time_point, coords> startPoint, units::time timeStep);
+    std::vector<std::pair<units::time_point, coords>> predict(units::time timeStep);
 
 private:
     /// Emelkedési sebesség elkérése az adott magasságon

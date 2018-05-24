@@ -23,3 +23,8 @@ vec3 coords::operator-(const coords& rhs) const {
                 (rhs.lon - lon) * metresToLonRatio(lat),
                 (double)(rhs.alt - alt));
 }
+
+std::ostream& operator<<(std::ostream& os, const coords& c) {
+    os << std::showpos << c.lat << ',' << c.lon << std::noshowpos << ',' << c.alt;
+    return os;
+}

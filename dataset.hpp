@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <map>
 #include <vector>
-#include "vecs.h"
 
 template <typename K, typename V>
 V interpolate(const std::pair<K,V>& v1, const std::pair<K,V>& v2, K k) {

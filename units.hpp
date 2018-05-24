@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <iomanip>
 #include <chrono>
 
 namespace units {
@@ -106,12 +107,12 @@ namespace units {
         return double(a) == double(b);
     }
 
-    time_point operator+(time_point t, time dur) {
+    inline time_point operator+(time_point t, time dur) {
         t += dur;
         return t;
     }
 
-    time_point operator-(time_point t, time dur) {
+    inline time_point operator-(time_point t, time dur) {
         t -= dur;
         return t;
     }
@@ -119,7 +120,7 @@ namespace units {
     /* generic stream inserter operator for quantities */
     template <int M, int KG, int S, int K>
     std::ostream & operator<<(std::ostream & os, Quantity<M, KG, S, K> m) {
-        os << m.magnitude << ' ';
+        os << double(m) << ' ';
         bool elso = true;
         if (M != 0) {
             elso = false;
@@ -149,6 +150,11 @@ namespace units {
     //    os << m.magnitude << " N";
     //    return os;
     //}
+
+    inline void print_time_point(std::ostream& os, time_point t, const char* fmt) {
+        std::time_t tt = time_point::clock::to_time_t(t);
+        os << std::put_time( std::gmtime(&tt), fmt );
+    }
 
 
     /* user-defined literals for SI quantities */

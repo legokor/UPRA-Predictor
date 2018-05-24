@@ -1,8 +1,10 @@
+#pragma once
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include "dataset.hpp"
 #include "units.hpp"
+#include "vecs.h"
 
 class WeatherData {
     /// Nyomás, a magasság függvényében (OMSZ adatból) Pascal
@@ -20,7 +22,7 @@ class WeatherData {
 
 
 public:
-    WeatherData(std::string filename);
+    WeatherData(std::istream& is);
 
     units::pressure pressureAt(units::height h) { return pressures.getAt(h); }
     units::temperature temperatureAt(units::height h) { return temperatures.getAt(h); }

@@ -34,3 +34,5 @@ struct coords {
 	// Difference in coords in metres
 	vec3 operator-(const coords& rhs) const;
 };
+
+std::ostream& operator<<(std::ostream& os, const coords& c);
