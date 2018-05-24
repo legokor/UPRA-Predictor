@@ -15,9 +15,6 @@ class Dataset {
     std::vector<std::pair<K,V>> data;
 
 public:
-    Dataset() {
-        data = std::vector<std::pair<K,V>>();
-    }
 
     void addDataPoint(K k, V v) {
         auto dpoint = std::make_pair(k,v);
