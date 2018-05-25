@@ -25,6 +25,7 @@ void printPredictionCSV(std::ostream& os, const std::vector<std::pair<units::tim
         units::print_time_point(os, dpoint.first, "%H%M%S");
         os << ',' << dpoint.second << std::endl;
     }
+    os << '.' << std::endl;
 }
 
 void cmd_newflight(std::vector<std::string> args) {
@@ -32,27 +33,27 @@ void cmd_newflight(std::vector<std::string> args) {
     auto wdata = std::make_unique<WeatherData>(std::cin);
 
     auto flight = std::make_unique<BalloonFlight>(props, std::move(wdata));
-    flights[args[1]] = std::move(flight);
+    flights[args.at(1)] = std::move(flight);
 }
 
 void cmd_recvuprapacket(std::vector<std::string> args) {
-    TelemetryPacket packet{args[2]};
+    TelemetryPacket packet{args.at(2)};
 
-    flights[args[1]]->recieveBalloonData(packet.gpstime, packet.location);
+    flights[args.at(1)]->recieveBalloonData(packet.gpstime, packet.location);
 }
 
 void cmd_predict(std::vector<std::string> args) {
     units::time timestep = 5; //seconds
     if (args.size() > 2)
-        timestep = std::stod(args[2]);
+        timestep = std::stod(args.at(2));
 
-    auto prediction = flights[args[1]]->predict(timestep);
+    auto prediction = flights[args.at(1)]->predict(timestep);
 
     printPredictionCSV(std::cout, prediction);
 }
 
 void cmd_endflight(std::vector<std::string> args) {
-    flights.erase(args[1]);
+    flights.erase(args.at(1));
 }
 
 int main() {

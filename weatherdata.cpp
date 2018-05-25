@@ -20,7 +20,7 @@ WeatherData::WeatherData(std::istream& is) {
 }
 
 vec2 WeatherData::windVelAt(units::height h) {
-    if (h < ascentWindVels.getLastKey()) {
+    if (!ascentWindVels.empty() && h < ascentWindVels.getLastKey()) {
         return ascentWindVels.getAt(h);
     } else {
         return windVels.getAt(h);

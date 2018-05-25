@@ -17,16 +17,18 @@ BalloonFlight::BalloonFlight(BalloonProperties props, std::unique_ptr<WeatherDat
 
 
 void BalloonFlight::recieveBalloonData(units::time_point t, coords loc) {
-    coords prevLoc = balloonData.back().second;
-    units::time dt = units::time(t - balloonData.back().first);
-    // Elmozdulás a leutóbbi mért helyzethez képest
-    vec3 locDelta = loc - prevLoc;
-    if (isAscent && loc.alt < prevLoc.alt) {
-        actualBurstAlt = (units::height) prevLoc.alt;
-        isAscent = false;
+    if (!balloonData.empty()) {
+        coords prevLoc = balloonData.back().second;
+        units::time dt = units::time(t - balloonData.back().first);
+        // Elmozdulás a leutóbbi mért helyzethez képest
+        vec3 locDelta = loc - prevLoc;
+        if (isAscent && loc.alt < prevLoc.alt) {
+            actualBurstAlt = (units::height) prevLoc.alt;
+            isAscent = false;
+        }
+        if (isAscent) wdata->addAscentWindData(prevLoc.alt, vec2(locDelta.x, locDelta.y) / (double)dt);
+        else wdata->addDescentWindData(prevLoc.alt, vec2(locDelta.x, locDelta.y) / (double)dt);
     }
-    if (isAscent) wdata->addAscentWindData(prevLoc.alt, vec2(locDelta.x, locDelta.y) / (double)dt);
-    else wdata->addDescentWindData(prevLoc.alt, vec2(locDelta.x, locDelta.y) / (double)dt);
     balloonData.push_back(std::make_pair(t, loc));
 }
 

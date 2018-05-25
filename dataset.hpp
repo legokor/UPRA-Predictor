@@ -24,6 +24,8 @@ public:
         );
     }
 
+    bool empty() { return data.empty(); }
+
     K getLastKey() {
         return data.back().first;
     }

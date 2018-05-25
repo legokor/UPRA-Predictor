@@ -3,7 +3,7 @@ OBJECTS = balloonproperties.o coords.o flight.o vecs.o main.o telemetrypacket.o 
 HEADERS = balloonproperties.h coords.h dataset.hpp flight.h units.hpp vecs.h telemetrypacket.h weatherdata.h
 
 CXX = g++
-CXXFLAGS = -std=c++17 -O2 -Wall -Wdeprecated -pedantic -ggdb
+CXXFLAGS = -std=c++17 -O0 -Wall -Wdeprecated -pedantic -ggdb
 LDFLAGS = -ggdb -fno-omit-frame-pointer
 
 .PHONY: all clean install run

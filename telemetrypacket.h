@@ -14,6 +14,8 @@
 /*
 UPRA packet format:
 $$CCCCCCC,iii,hhmmss,(+/-)xxxx.xxx,(+/-)xxxxx.xxx,aaaaa,eeee,ooo,rrr,
+Example:
+$$HAxUPRA,022,082633,+4728.413,+01903.649,00131,0327,002,001,
 
 $$ 	START bytes
 CCCCCC 	callsign

@@ -25,6 +25,6 @@ vec3 coords::operator-(const coords& rhs) const {
 }
 
 std::ostream& operator<<(std::ostream& os, const coords& c) {
-    os << std::showpos << c.lat << ',' << c.lon << std::noshowpos << ',' << c.alt;
+    os << std::showpos << c.lat << ',' << c.lon << std::noshowpos << ',' << double(c.alt);
     return os;
 }

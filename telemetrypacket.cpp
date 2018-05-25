@@ -1,17 +1,8 @@
 #include "telemetrypacket.h"
 
-std::regex TelemetryPacket::nmeaFmt("([+-])([0-9]{2})([0-9]+\\.[0-9]+)", std::regex_constants::grep);
+std::regex TelemetryPacket::nmeaFmt("([+-]([0-9]{2})([0-9]+\\.[0-9]+))");
 std::regex TelemetryPacket::upraPacketFmt(
-    "$$([A-Za-z0-9]+),\
-    ([0-9]+),\
-    ([0-2][0-9][0-5][0-9][0-5][0-9]),\
-    ([+-][0-9]+\\.[0-9]+),\
-    ([+-][0-9]+\\.[0-9]+),\
-    ([0-9]+),\
-    ([0-9]+),\
-    ([0-9]+),\
-    ([0-9]+),",
-    std::regex_constants::grep
+    "\\$\\$([A-Za-z0-9]+),([0-9]+),([0-9]+),([+-][0-9]+\\.[0-9]+),([+-][0-9]+\\.[0-9]+),([0-9]+),([0-9-]+),([0-9-]+),([0-9-]+),"
 );
 
 units::time_point TelemetryPacket::parseTimestamp(std::string timeStr) {
