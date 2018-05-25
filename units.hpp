@@ -2,6 +2,10 @@
 #include <iostream>
 #include <iomanip>
 #include <chrono>
+#ifdef DEBUG
+#include <cassert>
+#include <cmath>
+#endif
 
 namespace units {
     /* quantity in SI unit */
@@ -9,7 +13,11 @@ namespace units {
     class Quantity {
         double magnitude;
     public:
-        constexpr Quantity(double magnitude = 0): magnitude{magnitude} {}
+        constexpr Quantity(double magn = 0): magnitude{magn} {
+#ifdef DEBUG
+            assert(!std::isnan(magn));
+#endif
+        }
         constexpr explicit operator double() const { return magnitude; }
     };
 

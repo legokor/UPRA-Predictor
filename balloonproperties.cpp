@@ -1,18 +1,31 @@
 #include "balloonproperties.h"
 
+BalloonProperties::BalloonProperties(double balloonDryMass, double chuteDryMass, double payloadDryMass,
+    double neckLift, double parachuteArea,
+    double parachuteDrag, double balloonDrag, double burstDiam):
+    BALLOON_DRY_MASS{balloonDryMass}, PARACHUTE_DRY_MASS{chuteDryMass},
+    PAYLOAD_DRY_MASS{payloadDryMass}, NECK_LIFT{neckLift},
+    PARACHUTE_AREA{parachuteArea}, PARACHUTE_DRAG_C{parachuteDrag},
+    BALLOON_DRAG_C{balloonDrag}, DESIGN_BURST_DIAM{burstDiam} {
+#ifdef DEBUG
+    std::cerr << "BPROPS: " << balloonDryMass << chuteDryMass << payloadDryMass << neckLift << parachuteArea
+    << parachuteDrag << balloonDrag << burstDiam << std::endl;
+#endif
+}
+
 BalloonProperties::BalloonProperties(std::vector<std::string> values) {
     if (values.size() != 8)
         throw std::invalid_argument("Too few/many balloon properties");
-    BalloonProperties(
-        std::stod(values[0]),
-        std::stod(values[1]),
-        std::stod(values[2]),
-        std::stod(values[3]),
-        std::stod(values[4]),
-        std::stod(values[5]),
-        std::stod(values[6]),
-        std::stod(values[7])
-    );
+
+    BALLOON_DRY_MASS = std::stod(values[0]);
+    PARACHUTE_DRY_MASS = std::stod(values[1]);
+    PAYLOAD_DRY_MASS = std::stod(values[2]);
+    NECK_LIFT = std::stod(values[3]);
+    PARACHUTE_AREA = std::stod(values[4]);
+    PARACHUTE_DRAG_C = std::stod(values[5]);
+    BALLOON_DRAG_C = std::stod(values[6]);
+    DESIGN_BURST_DIAM = std::stod(values[7]);
+
 }
 
 void BalloonProperties::setProp(std::string propName, double value) {

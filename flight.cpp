@@ -13,6 +13,7 @@ BalloonFlight::BalloonFlight(BalloonProperties props, std::unique_ptr<WeatherDat
         (balloonProps.NECK_LIFT - balloonProps.PARACHUTE_DRY_MASS - balloonProps.PAYLOAD_DRY_MASS)
         * 2.0 * G / ( density * balloonProps.BALLOON_DRAG_C * pow((double)balloonGndDiam,2)*M_PI/4 )
     ));
+
 }
 
 

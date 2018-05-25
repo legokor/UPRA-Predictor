@@ -14,11 +14,7 @@ struct BalloonProperties {
 
     BalloonProperties(double balloonDryMass, double chuteDryMass, double payloadDryMass,
                       double neckLift, double parachuteArea,
-                      double parachuteDrag, double balloonDrag, double burstDiam):
-                      BALLOON_DRY_MASS{balloonDryMass}, PARACHUTE_DRY_MASS{chuteDryMass},
-                      PAYLOAD_DRY_MASS{payloadDryMass}, NECK_LIFT{neckLift},
-                      PARACHUTE_AREA{parachuteArea}, PARACHUTE_DRAG_C{parachuteDrag},
-                      BALLOON_DRAG_C{balloonDrag}, DESIGN_BURST_DIAM{burstDiam} {}
+                      double parachuteDrag, double balloonDrag, double burstDiam);
 
     BalloonProperties(std::vector<std::string> values);
 
