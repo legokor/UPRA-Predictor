@@ -1,6 +1,6 @@
 #include "telemetrypacket.h"
 
-std::regex TelemetryPacket::nmeaFmt("([+-]([0-9]{2})([0-9]+\\.[0-9]+))");
+std::regex TelemetryPacket::nmeaFmt("([+-]0*([1-9][0-9])([0-9]+\\.[0-9]+))");
 std::regex TelemetryPacket::upraPacketFmt(
     "\\$\\$([A-Za-z0-9]+),([0-9]+),([0-9]+),([+-][0-9]+\\.[0-9]+),([+-][0-9]+\\.[0-9]+),([0-9]+),([0-9-]+),([0-9-]+),([0-9-]+),"
 );

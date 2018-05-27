@@ -1,7 +1,7 @@
 #include "flight.h"
 
 BalloonFlight::BalloonFlight(BalloonProperties props, std::unique_ptr<WeatherData> wdata_):
-    balloonProps{props}, wdata{std::move(wdata_)} {
+    balloonProps{props}, wdata{std::move(wdata_)}, isAscent{true} {
     // TODO: density at 0m
     units::density density = wdata->pressureAt(0) / SPECIFIC_GAS_CONST / wdata->temperatureAt(0);
 
@@ -13,6 +13,9 @@ BalloonFlight::BalloonFlight(BalloonProperties props, std::unique_ptr<WeatherDat
         (balloonProps.NECK_LIFT - balloonProps.PARACHUTE_DRY_MASS - balloonProps.PAYLOAD_DRY_MASS)
         * 2.0 * G / ( density * balloonProps.BALLOON_DRAG_C * pow((double)balloonGndDiam,2)*M_PI/4 )
     ));
+
+    // TODO: Calculate expected burst altitude
+    expectedBurstAlt = 15000; //m
 
 }
 
