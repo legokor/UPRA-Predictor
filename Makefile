@@ -1,6 +1,8 @@
 BINARY = predictor
 OBJECTS = balloonproperties.o coords.o flight.o vecs.o main.o telemetrypacket.o weatherdata.o
-HEADERS = balloonproperties.h coords.h dataset.hpp flight.h units.hpp vecs.h telemetrypacket.h weatherdata.h
+
+SRCDIR = ./src
+OBJDIR = ./obj
 
 CXX = g++
 CXXFLAGS = -std=c++17 -O0 -Wall -Wdeprecated -pedantic -ggdb -DDEBUG
@@ -11,16 +13,13 @@ LDFLAGS = -ggdb -fno-omit-frame-pointer
 all: $(BINARY)
 
 clean:
-	rm -f $(BINARY) $(OBJECTS)
+	rm -f $(BINARY) $(OBJDIR)/*
 
-$(BINARY): $(OBJECTS)
+$(BINARY): $(addprefix $(OBJDIR)/, $(OBJECTS))
 	$(CXX) $(LDFLAGS) $^ -o $@
 
-%.o: %.cpp $(HEADERS)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-%.o: %.hpp $(HEADERS)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
+	$(CXX) -I$(SRCDIR) $(CXXFLAGS) -c $< -o $@
 
 install:
 	echo "Installing is not supported"
