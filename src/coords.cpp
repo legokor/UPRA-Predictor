@@ -19,9 +19,9 @@ coords coords::operator+(const vec3& v) const {
 
 // Difference between coords in metres
 vec3 coords::operator-(const coords& rhs) const {
-    return vec3((rhs.lat - lat) * metresToLatRatio(lat),
-                (rhs.lon - lon) * metresToLonRatio(lat),
-                (double)(rhs.alt - alt));
+    return vec3((lat - rhs.lat) * metresToLatRatio(lat),
+                (lon - rhs.lon) * metresToLonRatio(lat),
+                (double)(alt - rhs.alt));
 }
 
 std::ostream& operator<<(std::ostream& os, const coords& c) {
