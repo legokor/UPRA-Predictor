@@ -28,6 +28,20 @@ void printPredictionCSV(std::ostream& os, const std::vector<std::pair<units::tim
     os << '.' << std::endl;
 }
 
+void printPredictionJSON(std::ostream& os, const std::vector<std::pair<units::time_point, coords>>& p) {
+    os << '[';
+    for (auto dpoint = p.begin(); dpoint != p.end(); ++dpoint) {
+        if (dpoint != p.begin()) os << ',' << std::endl;
+        os << "{\"tstamp\":\"";
+        units::print_time_point(os, dpoint->first, "%FT%TZ");
+        os << "\",\"lat\":" << dpoint->second.lat;
+        os << ",\"lon\":" << dpoint->second.lon;
+        os << ",\"alt\":" << double(dpoint->second.alt);
+        os << '}';
+    }
+    os << ']';
+}
+
 void cmd_newflight(std::vector<std::string> args) {
     BalloonProperties props = BalloonProperties({args.begin()+2, args.end()});
     auto wdata = std::make_unique<WeatherData>(std::cin);
