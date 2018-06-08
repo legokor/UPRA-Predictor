@@ -21,7 +21,7 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <tesselate>1</tesselate>
 <altitudeMode>absolute</altitudeMode>
 <coordinates>
-`cat $1 | cut --delimiter=',' --complement --fields=1`
+`sed 's/\.[0-9]*$//' $1 | head --lines=-1 | cut --delimiter=',' --complement --fields=1`
 </coordinates>
 </LineString></Placemark>
 </Document></kml>"
