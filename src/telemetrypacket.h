@@ -30,7 +30,8 @@ rrr 	COM module temperature (*10 °C -> rrr°C)
 */
 
 struct TelemetryPacket {
-    static std::regex nmeaFmt;
+    static std::regex nmeaLatFmt;
+    static std::regex nmeaLonFmt;
     static std::regex upraPacketFmt;
 
     int msgid;
@@ -39,7 +40,7 @@ struct TelemetryPacket {
     units::temperature extemp;
 
     static units::time_point parseTimestamp(std::string timeStr);
-    static double parseNMEA(std::string nmeaStr);
+    static double parseNMEA(std::string nmeaStr, const std::regex& nmeaFmt);
 
     TelemetryPacket(std::string upraPacketStr);
 };

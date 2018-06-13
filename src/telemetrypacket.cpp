@@ -1,6 +1,7 @@
 #include "telemetrypacket.h"
 
-std::regex TelemetryPacket::nmeaFmt("([+-]0*([1-9][0-9])([0-9]+\\.[0-9]+))");
+std::regex TelemetryPacket::nmeaLatFmt("([+-]([1-9][0-9])([0-9]+\\.[0-9]+))");
+std::regex TelemetryPacket::nmeaLonFmt("([+-]([01][1-9][0-9])([0-9]+\\.[0-9]+))");
 std::regex TelemetryPacket::upraPacketFmt(
     "\\$\\$([A-Za-z0-9]+),([0-9]+),([0-9]+),([+-][0-9]+\\.[0-9]+),([+-][0-9]+\\.[0-9]+),([0-9]+),([0-9-]+),([0-9-]+),([0-9-]+),"
 );
@@ -26,7 +27,7 @@ units::time_point TelemetryPacket::parseTimestamp(std::string timeStr) {
     );
 }
 
-double TelemetryPacket::parseNMEA(std::string nmeaStr) {
+double TelemetryPacket::parseNMEA(std::string nmeaStr, const std::regex& nmeaFmt) {
     std::smatch results;
     std::regex_match(nmeaStr, results, nmeaFmt);
 
@@ -46,8 +47,8 @@ TelemetryPacket::TelemetryPacket(std::string upraPacketStr) {
 
     msgid = std::stoi(results[2]);
     gpstime = parseTimestamp(results[3]);
-    location.lat = parseNMEA(results[4]);
-    location.lon = parseNMEA(results[5]);
+    location.lat = parseNMEA(results[4], nmeaLatFmt);
+    location.lon = parseNMEA(results[5], nmeaLonFmt);
     location.alt = std::stod(results[6]);
     extemp = std::stod(results[7]) / 10.0;
 }
