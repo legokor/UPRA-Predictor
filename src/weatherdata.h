@@ -7,6 +7,9 @@
 #include "vecs.h"
 
 class WeatherData {
+    /// Specific gas constant of dry air
+    constexpr static const units::Quantity<2, 0, -2, -1> SPECIFIC_GAS_CONST = 287.058;
+
     /// Nyomás, a magasság függvényében (OMSZ adatból) Pascal
     Dataset<units::height, units::pressure> pressures;
     /// Hőmérséklet, a magasság függvényében (OMSZ adatból) Kelvin
@@ -26,7 +29,9 @@ public:
 
     units::pressure pressureAt(units::height h) { return pressures.getAt(h); }
     units::temperature temperatureAt(units::height h) { return temperatures.getAt(h); }
+    units::density densityAt(units::height h);
     vec2 windVelAt(units::height h);
+
     void addAscentWindData(units::height h, vec2 wVel) { ascentWindVels.addDataPoint(h, wVel); }
     void addDescentWindData(units::height h, vec2 wVel) { descentWindVels.addDataPoint(h, wVel); }
 };

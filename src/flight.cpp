@@ -3,15 +3,16 @@
 BalloonFlight::BalloonFlight(BalloonProperties props, std::unique_ptr<WeatherData> wdata_):
     balloonProps{props}, wdata{std::move(wdata_)}, isAscent{true} {
     // TODO: density at 0m
-    units::density density = wdata->pressureAt(0) / SPECIFIC_GAS_CONST / wdata->temperatureAt(0);
+    auto density = wdata->densityAt(0);
 
     units::length balloonGndDiam = 2 * pow(double((balloonProps.NECK_LIFT + balloonProps.BALLOON_DRY_MASS) / density / (4.0/3*M_PI)), 1.0/3);
 
     // TODO: Korrekció hélium tömegével
 
     ascentVel = sqrt(double(
-        (balloonProps.NECK_LIFT - balloonProps.PARACHUTE_DRY_MASS - balloonProps.PAYLOAD_DRY_MASS)
-        * 2.0 * G / ( density * balloonProps.BALLOON_DRAG_C * pow((double)balloonGndDiam,2)*M_PI/4 )
+        (balloonProps.NECK_LIFT - balloonProps.PARACHUTE_DRY_MASS - balloonProps.PAYLOAD_DRY_MASS) * 2.0 * G
+        /
+        ( density * balloonProps.BALLOON_DRAG_C * pow((double)balloonGndDiam,2)*M_PI/4 )
     ));
 
     // TODO: Calculate expected burst altitude
@@ -63,8 +64,9 @@ units::speed BalloonFlight::getAscentVel(units::height h) {
 }
 
 units::speed BalloonFlight::getDescentVel(units::height h) {
-    // Levegősűrűség számítása a jelenlegi magasságon
-    units::density density = wdata->pressureAt(h) / SPECIFIC_GAS_CONST / wdata->temperatureAt(h);
-
-    return -sqrt(double( (balloonProps.PARACHUTE_DRY_MASS + balloonProps.PAYLOAD_DRY_MASS) * G / ( density * balloonProps.PARACHUTE_DRAG_C * balloonProps.PARACHUTE_AREA ) * 2 ));
+    return -sqrt(double(
+        (balloonProps.PARACHUTE_DRY_MASS + balloonProps.PAYLOAD_DRY_MASS) * G
+        /
+        ( wdata->densityAt(h) * balloonProps.PARACHUTE_DRAG_C * balloonProps.PARACHUTE_AREA ) * 2
+    ));
 }

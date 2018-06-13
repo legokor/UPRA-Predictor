@@ -2,8 +2,7 @@
 
 WeatherData::WeatherData(std::istream& is) {
     std::string datapoint;
-    std::getline(is, datapoint);
-    for (; is && datapoint != "."; std::getline(is, datapoint)) {
+    while (std::getline(is, datapoint) && datapoint != ".") {
         std::istringstream dp_s(datapoint);
         double pres; //Pressure (hPa)
         double hght; //Height (m)
@@ -17,6 +16,10 @@ WeatherData::WeatherData(std::istream& is) {
         temperatures.addDataPoint(hght, temp + 273.15);
         windVels.addDataPoint(hght, vec2::from_polar(sknt * 0.51444444444444, drct));
     }
+}
+
+units::density WeatherData::densityAt(units::height h) {
+    return pressureAt(h) / SPECIFIC_GAS_CONST / temperatureAt(h);
 }
 
 vec2 WeatherData::windVelAt(units::height h) {

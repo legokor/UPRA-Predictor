@@ -9,8 +9,6 @@
 
 
 class BalloonFlight {
-    /// Specific gas constant of dry air
-    constexpr static const units::Quantity<2, 0, -2, -1> SPECIFIC_GAS_CONST = 287.058;
     /// Gravity
     constexpr static const units::acceleration G = 9.81;
 
