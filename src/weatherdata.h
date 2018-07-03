@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <tuple>
 #include "dataset.hpp"
 #include "units.hpp"
 #include "vecs.h"
@@ -25,7 +26,17 @@ class WeatherData {
 
 
 public:
-    WeatherData(std::istream& is);
+    using datapoint = std::tuple<
+        units::height,      // Altitude (m)
+        units::pressure,    // Pressure (Pa)
+        units::temperature, // Temperature (K)
+        double,             // Wind direction (degrees true)
+        units::speed        // Wind speed (m/s)
+    >;
+
+    void addDataPoint(datapoint dpoint);
+
+    void read(std::istream& is);
 
     units::pressure pressureAt(units::height h) { return pressures.getAt(h); }
     units::temperature temperatureAt(units::height h) { return temperatures.getAt(h); }

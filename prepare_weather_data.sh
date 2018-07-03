@@ -1,1 +1,1 @@
-cat "$1" | tr -s ' ' | cut --delimiter=' ' --fields=2-4,8,9 | tail -n +4 > weatherdata.txt
+cat "$1" | tail -n +4 | awk '{$1=$1};1'| awk '{print $2 " " $1 " " $3 " " $7 " " $8 * 0.514444444444}' > weatherdata.txt

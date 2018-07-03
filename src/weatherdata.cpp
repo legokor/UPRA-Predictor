@@ -1,20 +1,26 @@
 #include "weatherdata.h"
 
-WeatherData::WeatherData(std::istream& is) {
+void WeatherData::addDataPoint(datapoint dpoint) {
+    auto [hght, pres, temp, wdir, wspd] = dpoint;
+
+    pressures.addDataPoint(hght, pres);
+    temperatures.addDataPoint(hght, temp);
+    windVels.addDataPoint(hght, vec2::from_polar(double(wspd), wdir));
+}
+
+void WeatherData::read(std::istream& is) {
     std::string datapoint;
     while (std::getline(is, datapoint) && datapoint != ".") {
         std::istringstream dp_s(datapoint);
-        double pres; //Pressure (hPa)
         double hght; //Height (m)
+        double pres; //Pressure (hPa)
         double temp; //Temperature (°C)
-        double drct; //Wind direction (degrees)
-        double sknt; //Wind speed (knots)
+        double drct; //Wind direction (degrees true)
+        double wspd; //Wind speed (m/s)
 
-        dp_s >> pres >> hght >> temp >> drct >> sknt;
+        dp_s >> hght >> pres >> temp >> drct >> wspd;
 
-        pressures.addDataPoint(hght, pres * 100);
-        temperatures.addDataPoint(hght, temp + 273.15);
-        windVels.addDataPoint(hght, vec2::from_polar(sknt * 0.51444444444444, drct));
+        addDataPoint({hght, pres * 100, temp + 273.15, drct, wspd});
     }
 }
 
