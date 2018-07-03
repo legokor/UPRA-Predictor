@@ -1,8 +1,8 @@
 #include "telemetrypacket.h"
 
-std::regex TelemetryPacket::nmeaLatFmt("([+-]([1-9][0-9])([0-9]+\\.[0-9]+))");
-std::regex TelemetryPacket::nmeaLonFmt("([+-]([01][1-9][0-9])([0-9]+\\.[0-9]+))");
-std::regex TelemetryPacket::upraPacketFmt(
+const std::regex TelemetryPacket::nmeaLatFmt("([+-]([1-9][0-9])([0-9]+\\.[0-9]+))");
+const std::regex TelemetryPacket::nmeaLonFmt("([+-]([01][0-9][0-9])([0-9]+\\.[0-9]+))");
+const std::regex TelemetryPacket::upraPacketFmt(
     "\\$\\$([A-Za-z0-9]+),([0-9]+),([0-9]+),([+-][0-9]+\\.[0-9]+),([+-][0-9]+\\.[0-9]+),([0-9]+),([0-9-]+),([0-9-]+),([0-9-]+),"
 );
 
