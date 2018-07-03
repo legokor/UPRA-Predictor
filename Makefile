@@ -1,5 +1,5 @@
 BINARY = predictor
-OBJECTS = balloonproperties.o coords.o flight.o vecs.o main.o telemetrypacket.o weatherdata.o
+OBJECTS = balloonproperties.o coords.o flight.o vecs.o main.o telemetrypacket.o weatherdata.o util.o
 
 SRCDIR = ./src
 OBJDIR = ./obj

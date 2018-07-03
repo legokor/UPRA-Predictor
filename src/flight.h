@@ -36,6 +36,9 @@ public:
     /// Új mért adat felvétele
     void recieveBalloonData(units::time_point t, coords loc);
 
+    double getBalloonProp(std::string propName) { balloonProps.getProp(propName); }
+    void setBalloonProp(std::string propName, double val) { balloonProps.setProp(propName, val); }
+
     /// Új predikciós adatpont számítása az előzőből és a rendelkezésre álló adatokból
     coords predictNext(coords lastData, units::time dt, bool isAscent);
 

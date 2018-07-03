@@ -51,6 +51,12 @@ Example:
 
 Currently the predictior uses data from the fields GPS time, Lat, Lon, Alt. Usage of measured external temperature may get added soon.
 
+### `balloonprop-get <FLIGHTNAME> <PROPNAME>`
+Get ballon property `<PROPNAME>` of flight `<FLIGHTNAME>`.
+
+### `balloonprop-set <FLIGHTNAME> <PROPNAME> <VALUE>`
+Set ballon property `<PROPNAME>` of flight `<FLIGHTNAME>` to `<VALUE>`.
+
 ### `predict <FLIGHTNAME>`
 Make a new prediction. Currently the prediction gets returned in the following CSV-like way:
 `timestamp,latitude,longitude,altitude`

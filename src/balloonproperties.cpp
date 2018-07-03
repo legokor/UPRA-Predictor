@@ -28,6 +28,28 @@ BalloonProperties::BalloonProperties(std::vector<std::string> values) {
 
 }
 
+// FIXME: Figure out a way to use std::map instead of this monstrosity
+double BalloonProperties::getProp(std::string propName) {
+    if (propName == "BALLOON_DRY_MASS") {
+        return (double) BALLOON_DRY_MASS;
+    } else if (propName == "PARACHUTE_DRY_MASS") {
+        return (double) PARACHUTE_DRY_MASS;
+    } else if (propName == "PAYLOAD_DRY_MASS") {
+        return (double) PAYLOAD_DRY_MASS;
+    } else if (propName == "NECK_LIFT") {
+        return (double) NECK_LIFT;
+    } else if (propName == "PARACHUTE_AREA") {
+        return (double) PARACHUTE_AREA;
+    } else if (propName == "PARACHUTE_DRAG_C") {
+        return (double) PARACHUTE_DRAG_C;
+    } else if (propName == "BALLOON_DRAG_C") {
+        return (double) BALLOON_DRAG_C;
+    } else if (propName == "DESIGN_BURST_DIAM") {
+        return (double) DESIGN_BURST_DIAM;
+    } else throw std::invalid_argument("No balloon property named " + propName);
+
+}
+
 void BalloonProperties::setProp(std::string propName, double value) {
     if (propName == "BALLOON_DRY_MASS") {
         BALLOON_DRY_MASS = value;

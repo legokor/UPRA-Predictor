@@ -1,4 +1,5 @@
 #pragma once
+#include <map>
 #include "units.hpp"
 #include "coords.h"
 
@@ -18,6 +19,7 @@ struct BalloonProperties {
 
     BalloonProperties(std::vector<std::string> values);
 
+    double getProp(std::string propName);
     void setProp(std::string propName, double value);
     // TODO: Burst altitude calcuation
 
