@@ -10,18 +10,25 @@ std::vector<std::string> split(const std::string& input, const std::string& fmt)
     return {first, last};
 }
 
-void print_info(std::string_view msg) {
-    std::cout << "[ii] " << msg;
+// Print recieved prediction in CSV format
+void printPredictionCSV(std::ostream& os, const std::vector<std::pair<units::time_point, coords>>& p) {
+    for (const auto& dpoint : p) {
+        units::print_time_point(os, dpoint.first, "%H%M%S");
+        os << ',' << dpoint.second << std::endl;
+    }
+    os << '.' << std::endl;
 }
 
-void print_ok(std::string_view msg) {
-    std::cout << "[ok] " << msg;
-}
-
-void print_warning(std::string_view msg) {
-    std::cout << "[WW] " << msg;
-}
-
-void print_error(std::string_view msg) {
-   std::cout << "[EE] " << msg;
+void printPredictionJSON(std::ostream& os, const std::vector<std::pair<units::time_point, coords>>& p) {
+    os << '[';
+    for (auto dpoint = p.begin(); dpoint != p.end(); ++dpoint) {
+        if (dpoint != p.begin()) os << ',' << std::endl;
+        os << "{\"tstamp\":\"";
+        units::print_time_point(os, dpoint->first, "%FT%TZ");
+        os << "\",\"lat\":" << dpoint->second.lat;
+        os << ",\"lon\":" << dpoint->second.lon;
+        os << ",\"alt\":" << double(dpoint->second.alt);
+        os << '}';
+    }
+    os << ']';
 }

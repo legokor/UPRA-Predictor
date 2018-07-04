@@ -8,28 +8,10 @@
 /// Currently active flights
 std::map<std::string, std::unique_ptr<BalloonFlight>> flights;
 
-/// Print recieved prediction in CSV format
-void printPredictionCSV(std::ostream& os, const std::vector<std::pair<units::time_point, coords>>& p) {
-    for (const auto& dpoint : p) {
-        units::print_time_point(os, dpoint.first, "%H%M%S");
-        os << ',' << dpoint.second << std::endl;
-    }
-    os << '.' << std::endl;
-}
-
-void printPredictionJSON(std::ostream& os, const std::vector<std::pair<units::time_point, coords>>& p) {
-    os << '[';
-    for (auto dpoint = p.begin(); dpoint != p.end(); ++dpoint) {
-        if (dpoint != p.begin()) os << ',' << std::endl;
-        os << "{\"tstamp\":\"";
-        units::print_time_point(os, dpoint->first, "%FT%TZ");
-        os << "\",\"lat\":" << dpoint->second.lat;
-        os << ",\"lon\":" << dpoint->second.lon;
-        os << ",\"alt\":" << double(dpoint->second.alt);
-        os << '}';
-    }
-    os << ']';
-}
+const auto cmd_result_ok = "[ok] ";
+const auto cmd_result_info = "[ii] ";
+const auto cmd_result_warn = "[WW] ";
+const auto cmd_result_err = "[EE] ";
 
 void cmd_newflight(std::vector<std::string> args) {
     BalloonProperties props = BalloonProperties({args.begin()+2, args.end()});
@@ -38,20 +20,25 @@ void cmd_newflight(std::vector<std::string> args) {
 
     auto flight = std::make_unique<BalloonFlight>(props, std::move(wdata));
     flights[args.at(1)] = std::move(flight);
+    std::cout << cmd_result_ok << "Created flight " << args.at(1);
 }
 
 void cmd_recvuprapacket(std::vector<std::string> args) {
     TelemetryPacket packet{args.at(2)};
 
     flights[args.at(1)]->recieveBalloonData(packet.gpstime, packet.location);
+    std::cout << cmd_result_ok;
 }
 
 void cmd_balloonprop_get(std::vector<std::string> args) {
-    flights[args.at(1)]->getBalloonProp(args.at(2));
+    auto val = flights[args.at(1)]->getBalloonProp(args.at(2));
+
+    std::cout << cmd_result_ok << val;
 }
 
 void cmd_balloonprop_set(std::vector<std::string> args) {
     flights[args.at(1)]->setBalloonProp(args.at(2), std::stod(args.at(3)));
+    std::cout << cmd_result_ok << "Set balloon property " << args.at(2);
 }
 
 void cmd_predict(std::vector<std::string> args) {
@@ -61,12 +48,13 @@ void cmd_predict(std::vector<std::string> args) {
 
     auto prediction = flights[args.at(1)]->predict(timestep);
 
-    std::cout << "[ok]" << std::endl;
+    std::cout << cmd_result_ok << "Flight prediction for flight " + args.at(1) + ":";
     printPredictionCSV(std::cout, prediction);
 }
 
 void cmd_endflight(std::vector<std::string> args) {
     flights.erase(args.at(1));
+    std::cout << cmd_result_ok << "Concluded flight " + args.at(1);
 }
 
 /// Available commands
@@ -86,7 +74,7 @@ int main() {
         if (commands.find(args[0]) != commands.end()) {
             commands.at(args[0])(args);
         } else {
-            std::cout << "Unknown command.";
+            std::cout << cmd_result_err << "Unknown command.";
         }
     }
 

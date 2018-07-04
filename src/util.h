@@ -3,9 +3,12 @@
 #include <string_view>
 #include <vector>
 #include <regex>
+#include "units.hpp"
+#include "coords.h"
 
 std::vector<std::string> split(const std::string& input, const std::string& fmt);
-void print_info(std::string_view msg);
-void print_ok(std::string_view msg);
-void print_warning(std::string_view msg);
-void print_error(std::string_view msg);
+
+// Print recieved prediction in CSV format
+void printPredictionCSV(std::ostream& os, const std::vector<std::pair<units::time_point, coords>>& p);
+
+void printPredictionJSON(std::ostream& os, const std::vector<std::pair<units::time_point, coords>>& p);
