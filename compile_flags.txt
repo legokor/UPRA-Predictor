@@ -1,0 +1,10 @@
+-I./include
+-I./src
+-xc++
+-std=c++17
+-O0
+-Wall
+-Wdeprecated
+-pedantic
+-ggdb
+-DDEBUG
