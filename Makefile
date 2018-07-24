@@ -3,6 +3,7 @@ OBJECTS = balloonproperties.o coords.o flight.o vecs.o main.o telemetrypacket.o 
 
 SRCDIR = ./src
 OBJDIR = ./obj
+INCLDIR = ./include
 
 CXX = g++
 CXXFLAGS = -std=c++17 -O0 -Wall -Wdeprecated -pedantic -ggdb -DDEBUG
@@ -19,7 +20,7 @@ $(BINARY): $(addprefix $(OBJDIR)/, $(OBJECTS))
 	$(CXX) $(LDFLAGS) $^ -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
-	$(CXX) -I$(SRCDIR) $(CXXFLAGS) -c $< -o $@
+	$(CXX) -I$(SRCDIR) -I$(INCLDIR) $(CXXFLAGS) -c $< -o $@
 
 install:
 	echo "Installing is not supported"

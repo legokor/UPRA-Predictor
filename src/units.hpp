@@ -164,6 +164,11 @@ namespace units {
         os << std::put_time( std::gmtime(&tt), fmt );
     }
 
+    inline std::string time_point_to_str(time_point t, const char* fmt) {
+        std::ostringstream ss;
+        print_time_point(ss, t, fmt);
+        return ss.str();
+    }
 
     /* user-defined literals for SI quantities */
     namespace literals {

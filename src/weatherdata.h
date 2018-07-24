@@ -34,6 +34,9 @@ public:
         units::speed        // Wind speed (m/s)
     >;
 
+    WeatherData() = default;
+    WeatherData(std::vector<datapoint> data_in);
+
     void addDataPoint(datapoint dpoint);
 
     void read(std::istream& is);

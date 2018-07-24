@@ -8,6 +8,12 @@ void WeatherData::addDataPoint(datapoint dpoint) {
     windVels.addDataPoint(hght, vec2::from_polar(double(wspd), wdir));
 }
 
+WeatherData::WeatherData(std::vector<datapoint> data_in) {
+    for (auto dpoint : data_in) {
+        addDataPoint(dpoint);
+    }
+}
+
 void WeatherData::read(std::istream& is) {
     std::string datapoint;
     while (std::getline(is, datapoint) && datapoint != ".") {
