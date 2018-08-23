@@ -30,8 +30,14 @@ void WeatherData::read(std::istream& is) {
     }
 }
 
-units::density WeatherData::densityAt(units::height h) {
-    return pressureAt(h) / SPECIFIC_GAS_CONST / temperatureAt(h);
+units::density WeatherData::gasDensityAt(units::molar_mass gasMolarMass, units::height h) {
+    return pressureAt(h) / (UNIVERSAL_GAS_CONST / gasMolarMass * temperatureAt(h));
+}
+units::density WeatherData::heliumDensityAt(units::height h) {
+    return gasDensityAt(H_MOLAR_MASS, h);
+}
+units::density WeatherData::airDensityAt(units::height h) {
+    return gasDensityAt(AIR_MOLAR_MASS, h);
 }
 
 vec2 WeatherData::windVelAt(units::height h) {

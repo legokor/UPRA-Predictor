@@ -21,6 +21,5 @@ struct BalloonProperties {
 
     double getProp(std::string propName);
     void setProp(std::string propName, double value);
-    // TODO: Burst altitude calcuation
 
 };

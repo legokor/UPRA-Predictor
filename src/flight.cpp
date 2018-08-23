@@ -3,21 +3,28 @@
 BalloonFlight::BalloonFlight(BalloonProperties props, std::unique_ptr<WeatherData> wdata_):
     balloonProps{props}, wdata{std::move(wdata_)}, isAscent{true} {
     // TODO: density at 0m
-    auto density = wdata->densityAt(0);
+    units::density airGndDensity = wdata->airDensityAt(0);
 
-    units::length balloonGndDiam = 2 * pow(double((balloonProps.nozzle_lift + balloonProps.balloon_dry_mass) / density / (4.0/3*M_PI)), 1.0/3);
+    units::density heliumGndDensity = wdata->heliumDensityAt(0);
 
-    // TODO: Korrekció hélium tömegével
+    units::volume balloonGndVolume = (balloonProps.nozzle_lift + balloonProps.balloon_dry_mass) / (airGndDensity * (1.0 - double(WeatherData::H_MOLAR_MASS / WeatherData::AIR_MOLAR_MASS)));
+    units::length balloonGndDiam = 2 * pow(double(balloonGndVolume *3/4/M_PI), 1.0/3.0);
+
+    units::mass heliumMass = balloonGndVolume * heliumGndDensity;
+
+    units::volume balloonBurstVolume = pow(double(balloonProps.design_burst_diam / 2), 3) *4/3*M_PI;
+
+    units::density burstGasDensity = heliumMass / balloonBurstVolume;
+
+    expectedBurstAlt = WeatherData::ATMOSPHERE_SCALE_HEIGHT * log(double(heliumGndDensity / burstGasDensity));
+
+    //units::length balloonGndDiam = 2 * pow(double((balloonProps.nozzle_lift + balloonProps.balloon_dry_mass) / airGndDensity / (4.0/3*M_PI)), 1.0/3);
 
     ascentVel = sqrt(double(
         (balloonProps.nozzle_lift - balloonProps.parachute_dry_mass - balloonProps.payload_dry_mass) * 2.0 * G
         /
-        ( density * balloonProps.balloon_drag_c * pow((double)balloonGndDiam,2)*M_PI/4 )
+        ( airGndDensity * balloonProps.balloon_drag_c * pow((double)balloonGndDiam,2)*M_PI/4 )
     ));
-
-    // TODO: Calculate expected burst altitude
-    expectedBurstAlt = 15000; //m
-
 }
 
 
@@ -67,6 +74,6 @@ units::speed BalloonFlight::getDescentVel(units::height h) {
     return -sqrt(double(
         (balloonProps.parachute_dry_mass + balloonProps.payload_dry_mass) * G
         /
-        ( wdata->densityAt(h) * balloonProps.parachute_drag_c * balloonProps.parachute_area ) * 2
+        ( wdata->airDensityAt(h) * balloonProps.parachute_drag_c * balloonProps.parachute_area ) * 2
     ));
 }

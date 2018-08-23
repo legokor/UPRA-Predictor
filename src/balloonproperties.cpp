@@ -8,8 +8,8 @@ BalloonProperties::BalloonProperties(double balloonDryMass, double chuteDryMass,
     parachute_area{parachuteArea}, parachute_drag_c{parachuteDrag},
     balloon_drag_c{balloonDrag}, design_burst_diam{burstDiam} {
 #ifdef DEBUG
-    std::cerr << "BPROPS: " << balloonDryMass << chuteDryMass << payloadDryMass << neckLift << parachuteArea
-    << parachuteDrag << balloonDrag << burstDiam << std::endl;
+    //std::cerr << "BPROPS: " << balloonDryMass << chuteDryMass << payloadDryMass << neckLift << parachuteArea
+    //<< parachuteDrag << balloonDrag << burstDiam << std::endl;
 #endif
 }
 
