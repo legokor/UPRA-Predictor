@@ -11,6 +11,8 @@
 class BalloonFlight {
     /// Gravity
     constexpr static const units::acceleration G = 9.81;
+    /// Approximate scale height of the atmosphere
+    constexpr static const units::height ATMOSPHERE_SCALE_HEIGHT = 7640;
 
     BalloonProperties balloonProps;
 

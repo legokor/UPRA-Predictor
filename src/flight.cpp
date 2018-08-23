@@ -5,14 +5,14 @@ BalloonFlight::BalloonFlight(BalloonProperties props, std::unique_ptr<WeatherDat
     // TODO: density at 0m
     auto density = wdata->densityAt(0);
 
-    units::length balloonGndDiam = 2 * pow(double((balloonProps.NECK_LIFT + balloonProps.BALLOON_DRY_MASS) / density / (4.0/3*M_PI)), 1.0/3);
+    units::length balloonGndDiam = 2 * pow(double((balloonProps.nozzle_lift + balloonProps.balloon_dry_mass) / density / (4.0/3*M_PI)), 1.0/3);
 
     // TODO: Korrekció hélium tömegével
 
     ascentVel = sqrt(double(
-        (balloonProps.NECK_LIFT - balloonProps.PARACHUTE_DRY_MASS - balloonProps.PAYLOAD_DRY_MASS) * 2.0 * G
+        (balloonProps.nozzle_lift - balloonProps.parachute_dry_mass - balloonProps.payload_dry_mass) * 2.0 * G
         /
-        ( density * balloonProps.BALLOON_DRAG_C * pow((double)balloonGndDiam,2)*M_PI/4 )
+        ( density * balloonProps.balloon_drag_c * pow((double)balloonGndDiam,2)*M_PI/4 )
     ));
 
     // TODO: Calculate expected burst altitude
@@ -65,8 +65,8 @@ units::speed BalloonFlight::getAscentVel(units::height h) {
 
 units::speed BalloonFlight::getDescentVel(units::height h) {
     return -sqrt(double(
-        (balloonProps.PARACHUTE_DRY_MASS + balloonProps.PAYLOAD_DRY_MASS) * G
+        (balloonProps.parachute_dry_mass + balloonProps.payload_dry_mass) * G
         /
-        ( wdata->densityAt(h) * balloonProps.PARACHUTE_DRAG_C * balloonProps.PARACHUTE_AREA ) * 2
+        ( wdata->densityAt(h) * balloonProps.parachute_drag_c * balloonProps.parachute_area ) * 2
     ));
 }

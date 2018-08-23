@@ -3,10 +3,10 @@
 BalloonProperties::BalloonProperties(double balloonDryMass, double chuteDryMass, double payloadDryMass,
     double neckLift, double parachuteArea,
     double parachuteDrag, double balloonDrag, double burstDiam):
-    BALLOON_DRY_MASS{balloonDryMass}, PARACHUTE_DRY_MASS{chuteDryMass},
-    PAYLOAD_DRY_MASS{payloadDryMass}, NECK_LIFT{neckLift},
-    PARACHUTE_AREA{parachuteArea}, PARACHUTE_DRAG_C{parachuteDrag},
-    BALLOON_DRAG_C{balloonDrag}, DESIGN_BURST_DIAM{burstDiam} {
+    balloon_dry_mass{balloonDryMass}, parachute_dry_mass{chuteDryMass},
+    payload_dry_mass{payloadDryMass}, nozzle_lift{neckLift},
+    parachute_area{parachuteArea}, parachute_drag_c{parachuteDrag},
+    balloon_drag_c{balloonDrag}, design_burst_diam{burstDiam} {
 #ifdef DEBUG
     std::cerr << "BPROPS: " << balloonDryMass << chuteDryMass << payloadDryMass << neckLift << parachuteArea
     << parachuteDrag << balloonDrag << burstDiam << std::endl;
@@ -17,55 +17,55 @@ BalloonProperties::BalloonProperties(std::vector<std::string> values) {
     if (values.size() != 8)
         throw std::invalid_argument("Too few/many balloon properties");
 
-    BALLOON_DRY_MASS = std::stod(values[0]);
-    PARACHUTE_DRY_MASS = std::stod(values[1]);
-    PAYLOAD_DRY_MASS = std::stod(values[2]);
-    NECK_LIFT = std::stod(values[3]);
-    PARACHUTE_AREA = std::stod(values[4]);
-    PARACHUTE_DRAG_C = std::stod(values[5]);
-    BALLOON_DRAG_C = std::stod(values[6]);
-    DESIGN_BURST_DIAM = std::stod(values[7]);
+    balloon_dry_mass = std::stod(values[0]);
+    parachute_dry_mass = std::stod(values[1]);
+    payload_dry_mass = std::stod(values[2]);
+    nozzle_lift = std::stod(values[3]);
+    parachute_area = std::stod(values[4]);
+    parachute_drag_c = std::stod(values[5]);
+    balloon_drag_c = std::stod(values[6]);
+    design_burst_diam = std::stod(values[7]);
 
 }
 
 // FIXME: Figure out a way to use std::map instead of this monstrosity
 double BalloonProperties::getProp(std::string propName) {
-    if (propName == "BALLOON_DRY_MASS") {
-        return (double) BALLOON_DRY_MASS;
-    } else if (propName == "PARACHUTE_DRY_MASS") {
-        return (double) PARACHUTE_DRY_MASS;
-    } else if (propName == "PAYLOAD_DRY_MASS") {
-        return (double) PAYLOAD_DRY_MASS;
-    } else if (propName == "NECK_LIFT") {
-        return (double) NECK_LIFT;
-    } else if (propName == "PARACHUTE_AREA") {
-        return (double) PARACHUTE_AREA;
-    } else if (propName == "PARACHUTE_DRAG_C") {
-        return (double) PARACHUTE_DRAG_C;
-    } else if (propName == "BALLOON_DRAG_C") {
-        return (double) BALLOON_DRAG_C;
-    } else if (propName == "DESIGN_BURST_DIAM") {
-        return (double) DESIGN_BURST_DIAM;
+    if (propName == "balloon_dry_mass") {
+        return (double) balloon_dry_mass;
+    } else if (propName == "parachute_dry_mass") {
+        return (double) parachute_dry_mass;
+    } else if (propName == "payload_dry_mass") {
+        return (double) payload_dry_mass;
+    } else if (propName == "nozzle_lift") {
+        return (double) nozzle_lift;
+    } else if (propName == "parachute_area") {
+        return (double) parachute_area;
+    } else if (propName == "parachute_drag_c") {
+        return (double) parachute_drag_c;
+    } else if (propName == "balloon_drag_c") {
+        return (double) balloon_drag_c;
+    } else if (propName == "design_burst_diam") {
+        return (double) design_burst_diam;
     } else throw std::invalid_argument("No balloon property named " + propName);
 
 }
 
 void BalloonProperties::setProp(std::string propName, double value) {
-    if (propName == "BALLOON_DRY_MASS") {
-        BALLOON_DRY_MASS = value;
-    } else if (propName == "PARACHUTE_DRY_MASS") {
-        PARACHUTE_DRY_MASS = value;
-    } else if (propName == "PAYLOAD_DRY_MASS") {
-        PAYLOAD_DRY_MASS = value;
-    } else if (propName == "NECK_LIFT") {
-        NECK_LIFT = value;
-    } else if (propName == "PARACHUTE_AREA") {
-        PARACHUTE_AREA = value;
-    } else if (propName == "PARACHUTE_DRAG_C") {
-        PARACHUTE_DRAG_C = value;
-    } else if (propName == "BALLOON_DRAG_C") {
-        BALLOON_DRAG_C = value;
-    } else if (propName == "DESIGN_BURST_DIAM") {
-        DESIGN_BURST_DIAM = value;
+    if (propName == "balloon_dry_mass") {
+        balloon_dry_mass = value;
+    } else if (propName == "parachute_dry_mass") {
+        parachute_dry_mass = value;
+    } else if (propName == "payload_dry_mass") {
+        payload_dry_mass = value;
+    } else if (propName == "nozzle_lift") {
+        nozzle_lift = value;
+    } else if (propName == "parachute_area") {
+        parachute_area = value;
+    } else if (propName == "parachute_drag_c") {
+        parachute_drag_c = value;
+    } else if (propName == "balloon_drag_c") {
+        balloon_drag_c = value;
+    } else if (propName == "design_burst_diam") {
+        design_burst_diam = value;
     } else throw std::invalid_argument("No balloon property named " + propName);
 }

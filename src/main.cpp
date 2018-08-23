@@ -50,14 +50,14 @@ void cmd_newflight_json(const json& cmd) {
     newflight(
         cmd.at("flightname"),
         BalloonProperties(
-            cmd.at("balloonprops").at("BALLOON_DRY_MASS").get<double>(),
-            cmd.at("balloonprops").at("PARACHUTE_DRY_MASS").get<double>(),
-            cmd.at("balloonprops").at("PAYLOAD_DRY_MASS").get<double>(),
-            cmd.at("balloonprops").at("NECK_LIFT").get<double>(),
-            cmd.at("balloonprops").at("PARACHUTE_AREA").get<double>(),
-            cmd.at("balloonprops").at("PARACHUTE_DRAG_C").get<double>(),
-            cmd.at("balloonprops").at("BALLOON_DRAG_C").get<double>(),
-            cmd.at("balloonprops").at("DESIGN_BURST_DIAM").get<double>()
+            cmd.at("balloonprops").at("balloon_dry_mass").get<double>(),
+            cmd.at("balloonprops").at("parachute_dry_mass").get<double>(),
+            cmd.at("balloonprops").at("payload_dry_mass").get<double>(),
+            cmd.at("balloonprops").at("nozzle_lift").get<double>(),
+            cmd.at("balloonprops").at("parachute_area").get<double>(),
+            cmd.at("balloonprops").at("parachute_drag_c").get<double>(),
+            cmd.at("balloonprops").at("balloon_drag_c").get<double>(),
+            cmd.at("balloonprops").at("design_burst_diam").get<double>()
         ),
         std::move(wdata)
     );

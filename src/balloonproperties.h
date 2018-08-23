@@ -4,14 +4,14 @@
 #include "coords.h"
 
 struct BalloonProperties {
-    units::mass BALLOON_DRY_MASS;
-    units::mass PARACHUTE_DRY_MASS;
-    units::mass PAYLOAD_DRY_MASS;
-    units::mass NECK_LIFT;
-    units::area PARACHUTE_AREA;
-    double PARACHUTE_DRAG_C;
-    double BALLOON_DRAG_C;
-    units::length DESIGN_BURST_DIAM;
+    units::mass balloon_dry_mass;
+    units::mass parachute_dry_mass;
+    units::mass payload_dry_mass;
+    units::mass nozzle_lift;
+    units::area parachute_area;
+    double parachute_drag_c;
+    double balloon_drag_c;
+    units::length design_burst_diam;
 
     BalloonProperties(double balloonDryMass, double chuteDryMass, double payloadDryMass,
                       double neckLift, double parachuteArea,
