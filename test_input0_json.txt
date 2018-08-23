@@ -1,6 +1,6 @@
-{"cmd": "newflight", "flightname": "matef2",
+{"cmd": "newflight", "flightname": "MATeF-2",
 "balloonprops": {
-"BALLOON_DRY_MASS": 0.2, "PARACHUTE_DRY_MASS": 0.187, "PAYLOAD_DRY_MASS": 0.573, "NECK_LIFT": 3.12, "PARACHUTE_AREA": 2.688, "PARACHUTE_DRAG_C": 0.6, "BALLOON_DRAG_C": 0.27, "DESIGN_BURST_DIAM": 3.5 },
+"balloon_dry_mass": 0.2, "parachute_dry_mass": 0.187, "payload_dry_mass": 0.573, "nozzle_lift": 3.12, "parachute_area": 2.688, "parachute_drag_c": 0.6, "balloon_drag_c": 0.27, "design_burst_diam": 3.5 },
 "weatherdata": [
 {"pres": 985.0, "hght": 139, "temp": 16.6, "wdir": 200, "wspd": 8},
 {"pres":939.0, "hght":545, "temp":12.8, "wdir":200, "wspd":23},
@@ -90,14 +90,14 @@
 {"pres":18.0, "hght":26869, "temp":-55.7, "wdir":0, "wspd":8}]
 }
 
-{"cmd": "senduprapacket", "flightname": "matef2", "packet": "$$HAxUPRA,021,082623,+4728.422,+01903.640,00131,0203,007,002,"}
-{"cmd": "senduprapacket", "flightname": "matef2", "packet": "$$HAxUPRA,022,082633,+4728.413,+01903.649,00131,0327,002,001,"}
-{"cmd": "senduprapacket", "flightname": "matef2", "packet": "$$HAxUPRA,023,082643,+4728.420,+01903.649,00202,0326,004,000,"}
-{"cmd": "senduprapacket", "flightname": "matef2", "packet": "$$HAxUPRA,024,082653,+4728.435,+01903.645,00276,0244,-01,001,"}
-{"cmd": "senduprapacket", "flightname": "matef2", "packet": "$$HAxUPRA,025,082703,+4728.455,+01903.635,00330,0313,006,000,"}
-{"cmd": "senduprapacket", "flightname": "matef2", "packet": "$$HAxUPRA,026,082713,+4728.478,+01903.632,00386,0262,005,001,"}
-{"cmd": "senduprapacket", "flightname": "matef2", "packet": "$$HAxUPRA,027,082723,+4728.509,+01903.630,00445,0291,001,001,"}
-{"cmd": "senduprapacket", "flightname": "matef2", "packet": "$$HAxUPRA,028,082733,+4728.545,+01903.639,00514,0240,004,000,"}
-{"cmd": "predict", "flightname": "matef2"}
-{"cmd": "endflight", "flightname": "matef2"}
+{"cmd": "senduprapacket", "flightname": "MATeF-2", "packet": "$$HAxUPRA,021,082623,+4728.422,+01903.640,00131,0203,007,002,"}
+{"cmd": "senduprapacket", "flightname": "MATeF-2", "packet": "$$HAxUPRA,022,082633,+4728.413,+01903.649,00131,0327,002,001,"}
+{"cmd": "senduprapacket", "flightname": "MATeF-2", "packet": "$$HAxUPRA,023,082643,+4728.420,+01903.649,00202,0326,004,000,"}
+{"cmd": "senduprapacket", "flightname": "MATeF-2", "packet": "$$HAxUPRA,024,082653,+4728.435,+01903.645,00276,0244,-01,001,"}
+{"cmd": "senduprapacket", "flightname": "MATeF-2", "packet": "$$HAxUPRA,025,082703,+4728.455,+01903.635,00330,0313,006,000,"}
+{"cmd": "senduprapacket", "flightname": "MATeF-2", "packet": "$$HAxUPRA,026,082713,+4728.478,+01903.632,00386,0262,005,001,"}
+{"cmd": "senduprapacket", "flightname": "MATeF-2", "packet": "$$HAxUPRA,027,082723,+4728.509,+01903.630,00445,0291,001,001,"}
+{"cmd": "senduprapacket", "flightname": "MATeF-2", "packet": "$$HAxUPRA,028,082733,+4728.545,+01903.639,00514,0240,004,000,"}
+{"cmd": "predict", "flightname": "MATeF-2"}
+{"cmd": "endflight", "flightname": "MATeF-2"}
 {"cmd": "quit"}
