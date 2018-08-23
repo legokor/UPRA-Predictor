@@ -9,109 +9,112 @@
 
 namespace units {
     /* quantity in SI unit */
-    template <int M, int KG, int S, int K>
+    template <int M, int KG, int S, int K, int MOL>
     class Quantity {
         double magnitude;
     public:
         constexpr Quantity(double magn = 0): magnitude{magn} {
 #ifdef DEBUG
             assert(!std::isnan(magn));
+            //assert(!std::isinf(magn));
 #endif
         }
         constexpr explicit operator double() const { return magnitude; }
     };
 
     template <>
-    class Quantity<0,0,1,0> {
+    class Quantity<0,0,1,0,0> {
         std::chrono::seconds t;
     public:
-        constexpr Quantity<0,0,1,0>(double magnitude = 0): t{(long)magnitude} {}
-        constexpr explicit Quantity<0,0,1,0>(std::chrono::seconds t_): t{t_} {}
+        constexpr Quantity<0,0,1,0,0>(double magnitude = 0): t{(long)magnitude} {}
+        constexpr explicit Quantity<0,0,1,0,0>(std::chrono::seconds t_): t{t_} {}
         constexpr explicit operator double() const { return t.count(); }
         constexpr operator std::chrono::seconds() { return t; }
     };
     using time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds>;
 
     /* short names for quantities */
-    using length = Quantity<1, 0, 0, 0>;          /* hossz, m */
+    using length = Quantity<1, 0, 0, 0, 0>;          /* hossz, m */
     using height = length;
-    using area = Quantity<2, 0, 0, 0>;            /* terület, m^2 */
-    using mass = Quantity<0, 1, 0, 0>;            /* tömeg, kg */
-    using density = Quantity< -3, 1, 0, 0>;       /* sűrűség, kg / m^3 */
-    using time = Quantity<0, 0, 1, 0>;            /* idő, s */
-    using speed = Quantity<1, 0, -1, 0>;          /* sebesség, m/s */
-    using acceleration = Quantity<1, 0, -2, 0>;   /* gyorsulás, m/s^2 */
-    using force = Quantity<1, 1, -2, 0>;          /* erő, N=m*kg/s^2 */
-    using energy = Quantity<2, 1, -2, 0>;         /* energia, J=m^2*kg/s^2 */
-    using torque = Quantity<2, 1, -2, 0>;         /* forgatónyomaték, Nm=m^2*kg/s^2 */
-    using power = Quantity<2, 1, -3, 0>;          /* teljesítmény, Watt = Joule/s = m^2*kg/s^3 */
-    using pressure = Quantity< -1, 1, -2, 0>;     /* nyomás, Pascal = kg/(m*s^2) */
-    using temperature = Quantity<0, 0, 0, 1>;     /* hőmérséklet, Kelvin */
+    using area = Quantity<2, 0, 0, 0, 0>;            /* terület, m^2 */
+    using volume = Quantity<3, 0, 0, 0, 0>;          /* térfogat, m^3 */
+    using mass = Quantity<0, 1, 0, 0, 0>;            /* tömeg, kg */
+    using density = Quantity< -3, 1, 0, 0, 0>;       /* sűrűség, kg / m^3 */
+    using time = Quantity<0, 0, 1, 0, 0>;            /* idő, s */
+    using speed = Quantity<1, 0, -1, 0, 0>;          /* sebesség, m/s */
+    using acceleration = Quantity<1, 0, -2, 0, 0>;   /* gyorsulás, m/s^2 */
+    using force = Quantity<1, 1, -2, 0, 0>;          /* erő, N=m*kg/s^2 */
+    using energy = Quantity<2, 1, -2, 0, 0>;         /* energia, J=m^2*kg/s^2 */
+    using torque = Quantity<2, 1, -2, 0, 0>;         /* forgatónyomaték, Nm=m^2*kg/s^2 */
+    using power = Quantity<2, 1, -3, 0, 0>;          /* teljesítmény, Watt = Joule/s = m^2*kg/s^3 */
+    using pressure = Quantity< -1, 1, -2, 0, 0>;     /* nyomás, Pascal = kg/(m*s^2) */
+    using temperature = Quantity<0, 0, 0, 1, 0>;     /* hőmérséklet, Kelvin */
+    using molar_mass = Quantity<0,1,0,0,-1>;
 
 
     /* operators for quantities */
-    template <int M, int KG, int S, int K>
-    Quantity<M, KG, S, K> operator+(Quantity<M, KG, S, K> a, Quantity<M, KG, S, K> b) {
-        return Quantity<M, KG, S, K>{double(a) + double(b)};
+    template <int M, int KG, int S, int K, int MOL>
+    Quantity<M, KG, S, K, MOL> operator+(Quantity<M, KG, S, K, MOL> a, Quantity<M, KG, S, K, MOL> b) {
+        return Quantity<M, KG, S, K, MOL>{double(a) + double(b)};
     }
 
-    template <int M, int KG, int S, int K>
-    Quantity<M, KG, S, K> operator+(Quantity<M, KG, S, K> a, double b) {
-        return Quantity<M, KG, S, K>{double(a) + b};
+    template <int M, int KG, int S, int K, int MOL>
+    Quantity<M, KG, S, K, MOL> operator+(Quantity<M, KG, S, K, MOL> a, double b) {
+        return Quantity<M, KG, S, K, MOL>{double(a) + b};
     }
 
-    template <int M, int KG, int S, int K>
-    Quantity<M, KG, S, K> operator-(Quantity<M, KG, S, K> a, Quantity<M, KG, S, K> b) {
-        return Quantity<M, KG, S, K>{double(a) - double(b)};
+    template <int M, int KG, int S, int K, int MOL>
+    Quantity<M, KG, S, K, MOL> operator-(Quantity<M, KG, S, K, MOL> a, Quantity<M, KG, S, K, MOL> b) {
+        return Quantity<M, KG, S, K, MOL>{double(a) - double(b)};
     }
 
-    template <int M, int KG, int S, int K>
-    Quantity<M, KG, S, K> operator-(Quantity<M, KG, S, K> a, double b) {
-        return Quantity<M, KG, S, K>{double(a) - b};
+    template <int M, int KG, int S, int K, int MOL>
+    Quantity<M, KG, S, K, MOL> operator-(Quantity<M, KG, S, K, MOL> a, double b) {
+        return Quantity<M, KG, S, K, MOL>{double(a) - b};
     }
 
-    template <int M1, int KG1, int S1, int K1, int M2, int KG2, int S2, int K2>
-    Quantity<M1+M2, KG1+KG2, S1+S2, K1+K2> operator*(Quantity<M1, KG1, S1, K1> a, Quantity<M2, KG2, S2, K2> b) {
-        return Quantity<M1+M2, KG1+KG2, S1+S2, K1+K2>{double(a) * double(b)};
+    template <int M1, int KG1, int S1, int K1, int MOL1, int M2, int KG2, int S2, int K2, int MOL2>
+    Quantity<M1+M2, KG1+KG2, S1+S2, K1+K2, MOL1+MOL2> operator*(Quantity<M1, KG1, S1, K1, MOL1> a, Quantity<M2, KG2, S2, K2, MOL2> b) {
+        return Quantity<M1+M2, KG1+KG2, S1+S2, K1+K2, MOL1+MOL2>{double(a) * double(b)};
     }
 
-    template <int M, int KG, int S, int K>
-    Quantity<M, KG, S, K> operator*(Quantity<M, KG, S, K> a, double b) {
-        return Quantity<M, KG, S, K>{double(a) * b};
+    template <int M, int KG, int S, int K, int MOL>
+    Quantity<M, KG, S, K, MOL> operator*(Quantity<M, KG, S, K, MOL> a, double b) {
+        return Quantity<M, KG, S, K, MOL>{double(a) * b};
     }
 
-    template <int M1, int KG1, int S1, int K1, int M2, int KG2, int S2, int K2>
-    Quantity<M1-M2, KG1-KG2, S1-S2, K1-K2> operator/(Quantity<M1, KG1, S1, K1> a, Quantity<M2, KG2, S2, K2> b) {
-        return Quantity<M1-M2, KG1-KG2, S1-S2, K1-K2>{double(a) / double(b)};
+    template <int M1, int KG1, int S1, int K1, int MOL1, int M2, int KG2, int S2, int K2, int MOL2>
+    Quantity<M1-M2, KG1-KG2, S1-S2, K1-K2, MOL1-MOL2> operator/(Quantity<M1, KG1, S1, K1, MOL1> a, Quantity<M2, KG2, S2, K2, MOL2> b) {
+        return Quantity<M1-M2, KG1-KG2, S1-S2, K1-K2, MOL1-MOL2>{double(a) / double(b)};
     }
 
-    template <int M, int KG, int S, int K>
-    Quantity<M, KG, S, K> operator/(Quantity<M, KG, S, K> a, double b) {
-        return Quantity<M, KG, S, K>{double(a) / b};
+    template <int M, int KG, int S, int K, int MOL>
+    Quantity<M, KG, S, K, MOL> operator/(Quantity<M, KG, S, K, MOL> a, double b) {
+        return Quantity<M, KG, S, K, MOL>{double(a) / b};
     }
 
-    template <int M, int KG, int S, int K>
-    bool operator<(Quantity<M, KG, S, K> a, Quantity<M, KG, S, K> b) {
+    template <int M, int KG, int S, int K, int MOL>
+    bool operator<(Quantity<M, KG, S, K, MOL> a, Quantity<M, KG, S, K, MOL> b) {
         return double(a) < double(b);
     }
 
-    template <int M, int KG, int S, int K>
-    bool operator>(Quantity<M, KG, S, K> a, Quantity<M, KG, S, K> b) {
+    template <int M, int KG, int S, int K, int MOL>
+    bool operator>(Quantity<M, KG, S, K, MOL> a, Quantity<M, KG, S, K, MOL> b) {
         return double(a) > double(b);
     }
 
-    template <int M, int KG, int S, int K>
-    bool operator>=(Quantity<M, KG, S, K> a, Quantity<M, KG, S, K> b) {
+    template <int M, int KG, int S, int K, int MOL>
+    bool operator>=(Quantity<M, KG, S, K, MOL> a, Quantity<M, KG, S, K, MOL> b) {
         return double(a) >= double(b);
     }
 
-    template <int M, int KG, int S, int K>
-    bool operator<=(Quantity<M, KG, S, K> a, Quantity<M, KG, S, K> b) {
+    template <int M, int KG, int S, int K, int MOL>
+    bool operator<=(Quantity<M, KG, S, K, MOL> a, Quantity<M, KG, S, K, MOL> b) {
         return double(a) <= double(b);
     }
 
-    template <int M, int KG, int S, int K>
-    bool operator==(Quantity<M, KG, S, K> a, Quantity<M, KG, S, K> b) {
+    template <int M, int KG, int S, int K, int MOL>
+    bool operator==(Quantity<M, KG, S, K, MOL> a, Quantity<M, KG, S, K, MOL> b) {
         return double(a) == double(b);
     }
 
@@ -126,8 +129,8 @@ namespace units {
     }
 
     /* generic stream inserter operator for quantities */
-    template <int M, int KG, int S, int K>
-    std::ostream & operator<<(std::ostream & os, Quantity<M, KG, S, K> m) {
+    template <int M, int KG, int S, int K, int MOL>
+    std::ostream & operator<<(std::ostream & os, Quantity<M, KG, S, K, MOL> m) {
         os << double(m) << ' ';
         bool elso = true;
         if (M != 0) {
