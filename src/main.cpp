@@ -200,6 +200,7 @@ const std::map<std::string, std::function<void(const json&)>> commands_json = {
 };
 
 int main() {
+    std::ios_base::sync_with_stdio(false);
 
     if constexpr (json_output) {
         for (json cmd; std::cin >> cmd; ) {
