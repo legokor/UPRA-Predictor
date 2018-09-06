@@ -16,7 +16,7 @@ namespace units {
         constexpr Quantity(double magn = 0): magnitude{magn} {
 #ifdef DEBUG
             assert(!std::isnan(magn));
-            //assert(!std::isinf(magn));
+            assert(!std::isinf(magn));
 #endif
         }
         constexpr explicit operator double() const { return magnitude; }

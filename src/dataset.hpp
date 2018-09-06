@@ -38,7 +38,9 @@ public:
     V getAt(K k) {
         //Key smaller than smallest in dataset -> extrapolate
         if (k < data.front().first)
-            return interpolate(data[0], data[1], k);
+            return data[0].second;
+            // TODO: Write something working for exrtapolation
+            //return interpolate(data[0], data[1], k);
 
         auto pos = std::upper_bound(data.begin(), data.end(), k, [] (K a, auto b) { return a < b.first; });
         if (pos < data.end())
