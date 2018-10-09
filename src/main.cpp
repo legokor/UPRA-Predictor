@@ -90,7 +90,7 @@ void cmd_balloonprop_get(const std::vector<std::string>& args) {
 }
 void cmd_balloonprop_get_json(const json& cmd) {
     auto val = balloonprop_get(cmd.at("flightname"), cmd.at("propname"));
-    json out = { {"success", true}, {"bprops", {cmd.at("propname"), val}} };
+    json out = { {"success", true}, {"flightname", cmd.at("flightname")}, {"bprops", {cmd.at("propname"), val}} };
     std::cout << out;
 }
 
@@ -161,6 +161,7 @@ void cmd_predict_json(const json& cmd) {
     }
 
     j["success"] = true;
+    j["flightname"] = cmd.at("flightname");
     j["prediction"] = std::move(prediction_j);
 
     std::cout << j;
