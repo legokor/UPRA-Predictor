@@ -1,6 +1,6 @@
 {"cmd": "newflight", "flightname": "MATeF-2",
 "balloonprops": {
-"balloon_dry_mass": 0.2, "parachute_dry_mass": 0.187, "payload_dry_mass": 0.573, "nozzle_lift": 3.12, "parachute_area": 2.688, "parachute_drag_c": 0.6, "balloon_drag_c": 0.27, "design_burst_diam": 3.5 },
+"balloon_dry_mass": 0.2, "parachute_dry_mass": 0.187, "payload_dry_mass": 0.573, "nozzle_lift": 3.12, "parachute_area": 2.688, "parachute_drag_c": 0.6, "balloon_drag_c": 0.27, "design_burst_diam": 3.5, "lifting_gas_molar_mass": 0.004 },
 "weatherdata": [
 {"pres": 985.0, "hght": 139, "temp": 16.6, "wdir": 200, "wspd": 8},
 {"pres":939.0, "hght":545, "temp":12.8, "wdir":200, "wspd":23},

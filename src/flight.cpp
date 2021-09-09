@@ -2,23 +2,21 @@
 
 BalloonFlight::BalloonFlight(BalloonProperties props, std::unique_ptr<WeatherData> wdata_):
     balloonProps{props}, wdata{std::move(wdata_)}, isAscent{true} {
-    // TODO: density at 0m
+
     units::density airGndDensity = wdata->airDensityAt(0);
 
-    units::density heliumGndDensity = wdata->heliumDensityAt(0);
+    units::density gndLiftingGasDensity = wdata->gasDensityAt(balloonProps.lifting_gas_molar_mass, 0);
 
-    units::volume balloonGndVolume = (balloonProps.nozzle_lift + balloonProps.balloon_dry_mass) / (airGndDensity * (1.0 - double(WeatherData::H_MOLAR_MASS / WeatherData::AIR_MOLAR_MASS)));
+    units::volume balloonGndVolume = (balloonProps.nozzle_lift + balloonProps.balloon_dry_mass) / (airGndDensity * (1.0 - double(balloonProps.lifting_gas_molar_mass / WeatherData::AIR_MOLAR_MASS)));
     units::length balloonGndDiam = 2 * pow(double(balloonGndVolume *3/4/M_PI), 1.0/3.0);
 
-    units::mass heliumMass = balloonGndVolume * heliumGndDensity;
+    units::mass liftingGasMass = balloonGndVolume * gndLiftingGasDensity;
 
     units::volume balloonBurstVolume = pow(double(balloonProps.design_burst_diam / 2), 3) *4/3*M_PI;
 
-    units::density burstGasDensity = heliumMass / balloonBurstVolume;
+    units::density burstGasDensity = liftingGasMass / balloonBurstVolume;
 
-    expectedBurstAlt = WeatherData::ATMOSPHERE_SCALE_HEIGHT * log(double(heliumGndDensity / burstGasDensity));
-
-    //units::length balloonGndDiam = 2 * pow(double((balloonProps.nozzle_lift + balloonProps.balloon_dry_mass) / airGndDensity / (4.0/3*M_PI)), 1.0/3);
+    expectedBurstAlt = WeatherData::ATMOSPHERE_SCALE_HEIGHT * log(double(gndLiftingGasDensity / burstGasDensity));
 
     ascentVel = sqrt(double(
         (balloonProps.nozzle_lift - balloonProps.parachute_dry_mass - balloonProps.payload_dry_mass) * 2.0 * G

@@ -4,7 +4,7 @@
 #include "flight.h"
 #include "telemetrypacket.h"
 #include "util.h"
-#include "nlohmann/json.hpp"
+#include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
 
@@ -57,7 +57,8 @@ void cmd_newflight_json(const json& cmd) {
             cmd.at("balloonprops").at("parachute_area").get<double>(),
             cmd.at("balloonprops").at("parachute_drag_c").get<double>(),
             cmd.at("balloonprops").at("balloon_drag_c").get<double>(),
-            cmd.at("balloonprops").at("design_burst_diam").get<double>()
+            cmd.at("balloonprops").at("design_burst_diam").get<double>(),
+            cmd.at("balloonprops").at("lifting_gas_molar_mass").get<double>()
         ),
         std::move(wdata)
     );

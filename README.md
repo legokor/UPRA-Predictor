@@ -22,6 +22,7 @@ Balloon properies must be provided in the order they appear here
 | PARACHUTE_DRAG_C | Parachute drag coefficient |
 | BALLOON_DRAG_C | Balloon drag coefficient |
 | DESIGN_BURST_DIAM | Design burst diameter of balloon (m) |
+| LIFTING_GAS_MOLAR_MASS | Molar mass of the used lifting gas (eg. 0.004 for helium) |
 
 ### `senduprapacket <FLIGHTNAME> <PACKET_RAW>`
 Send a new packet to the predictor. Packet must use the UPRA packet format and be valid.

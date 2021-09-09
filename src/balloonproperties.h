@@ -12,10 +12,11 @@ struct BalloonProperties {
     double parachute_drag_c;
     double balloon_drag_c;
     units::length design_burst_diam;
+    units::molar_mass lifting_gas_molar_mass;
 
     BalloonProperties(double balloonDryMass, double chuteDryMass, double payloadDryMass,
                       double neckLift, double parachuteArea,
-                      double parachuteDrag, double balloonDrag, double burstDiam);
+                      double parachuteDrag, double balloonDrag, double burstDiam, double liftingGasMolarMass);
 
     BalloonProperties(std::vector<std::string> values);
 

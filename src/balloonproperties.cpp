@@ -2,11 +2,11 @@
 
 BalloonProperties::BalloonProperties(double balloonDryMass, double chuteDryMass, double payloadDryMass,
     double neckLift, double parachuteArea,
-    double parachuteDrag, double balloonDrag, double burstDiam):
+    double parachuteDrag, double balloonDrag, double burstDiam, double liftingGasMM):
     balloon_dry_mass{balloonDryMass}, parachute_dry_mass{chuteDryMass},
     payload_dry_mass{payloadDryMass}, nozzle_lift{neckLift},
     parachute_area{parachuteArea}, parachute_drag_c{parachuteDrag},
-    balloon_drag_c{balloonDrag}, design_burst_diam{burstDiam} {
+    balloon_drag_c{balloonDrag}, design_burst_diam{burstDiam}, lifting_gas_molar_mass{liftingGasMM} {
 #ifdef DEBUG
     //std::cerr << "BPROPS: " << balloonDryMass << chuteDryMass << payloadDryMass << neckLift << parachuteArea
     //<< parachuteDrag << balloonDrag << burstDiam << std::endl;
@@ -14,7 +14,7 @@ BalloonProperties::BalloonProperties(double balloonDryMass, double chuteDryMass,
 }
 
 BalloonProperties::BalloonProperties(std::vector<std::string> values) {
-    if (values.size() != 8)
+    if (values.size() != 9)
         throw std::invalid_argument("Too few/many balloon properties");
 
     balloon_dry_mass = std::stod(values[0]);
@@ -25,7 +25,7 @@ BalloonProperties::BalloonProperties(std::vector<std::string> values) {
     parachute_drag_c = std::stod(values[5]);
     balloon_drag_c = std::stod(values[6]);
     design_burst_diam = std::stod(values[7]);
-
+    lifting_gas_molar_mass = std::stod(values[8]);
 }
 
 // FIXME: Figure out a way to use std::map instead of this monstrosity
@@ -46,6 +46,8 @@ double BalloonProperties::getProp(std::string propName) {
         return (double) balloon_drag_c;
     } else if (propName == "design_burst_diam") {
         return (double) design_burst_diam;
+    } else if (propName == "lifting_gas_molar_mass") {
+        return (double) lifting_gas_molar_mass;
     } else throw std::invalid_argument("No balloon property named " + propName);
 
 }
@@ -67,5 +69,7 @@ void BalloonProperties::setProp(std::string propName, double value) {
         balloon_drag_c = value;
     } else if (propName == "design_burst_diam") {
         design_burst_diam = value;
+    } else if (propName == "lifting_gas_molar_mass") {
+        lifting_gas_molar_mass = value;
     } else throw std::invalid_argument("No balloon property named " + propName);
 }

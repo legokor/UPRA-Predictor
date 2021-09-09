@@ -7,7 +7,6 @@
 #include "coords.h"
 #include "vecs.h"
 
-
 class BalloonFlight {
     /// Gravity
     constexpr static const units::acceleration G = 9.81;
