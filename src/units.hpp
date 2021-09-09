@@ -155,6 +155,27 @@ namespace units {
         return os;
     }
 
+
+    // math functions for qunatities
+    template <int M, int KG, int S, int K, int MOL>
+    Quantity<M, KG, S, K, MOL> sqrt(Quantity<M, KG, S, K, MOL> a) {
+        return Quantity<M, KG, S, K, MOL>{std::sqrt(double(a))};
+    }
+    template <int M, int KG, int S, int K, int MOL>
+    Quantity<M, KG, S, K, MOL> pow(Quantity<M, KG, S, K, MOL> a, double exp) {
+        return Quantity<M, KG, S, K, MOL>{std::pow(double(a), exp)};
+    }
+    template <int M, int KG, int S, int K, int MOL>
+    Quantity<M, KG, S, K, MOL> log(Quantity<M, KG, S, K, MOL> a) {
+        return Quantity<M, KG, S, K, MOL>{std::log(double(a))};
+    }
+    template <int M, int KG, int S, int K, int MOL>
+    Quantity<M, KG, S, K, MOL> exp(Quantity<M, KG, S, K, MOL> a) {
+        return Quantity<M, KG, S, K, MOL>{std::exp(double(a))};
+    }
+    
+
+
     /* specialized stream inserter operator for force */
     //template <>
     //std::ostream & operator<<(std::ostream & os, force m) {

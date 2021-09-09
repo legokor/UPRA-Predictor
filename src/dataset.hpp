@@ -13,14 +13,14 @@ V interpolate_linear(const std::pair<K,V>& v1, const std::pair<K,V>& v2, K k) {
 
 template <typename K, typename V>
 V interpolate_log(const std::pair<K,V>& v1, const std::pair<K,V>& v2, K k) {
-    return std::exp(interpolate_linear(
-        std::make_pair(v1.first, std::log(v1.second)),
-        std::make_pair(v2.first, std::log(v2.second)),
+    return exp(interpolate_linear(
+        std::make_pair(v1.first, log(v1.second)),
+        std::make_pair(v2.first, log(v2.second)),
         k
     ));
 }
 
-template <typename K, typename V, V interpolate_func(const std::pair<K,V>,const std::pair<K,V>, K) = interpolate_linear >
+template <typename K, typename V, V (*interpolate)(const std::pair<K,V>&, const std::pair<K,V>&, K) = interpolate_linear >
 class Dataset {
     std::vector<std::pair<K,V>> data;
 
