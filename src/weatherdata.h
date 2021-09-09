@@ -10,7 +10,7 @@
 class WeatherData {
 
     /// Nyomás, a magasság függvényében (OMSZ adatból) Pascal
-    Dataset<units::height, units::pressure> pressures;
+    Dataset<units::height, units::pressure, interpolate_log> pressures;
     /// Hőmérséklet, a magasság függvényében (OMSZ adatból) Kelvin
     Dataset<units::height, units::temperature> temperatures;
     /// Szélirány, szélsebesség, a magasság függvényében (OMSZ adatból) m/s, derékszögű koordinátarendzser

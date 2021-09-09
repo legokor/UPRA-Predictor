@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <cmath>
 
 struct vec2 {
@@ -74,5 +75,9 @@ struct vec3 {
 double dot(const vec2& v1, const vec2& v2);
 vec3 cross(const vec2& v1, const vec2& v2);
 
+std::ostream& operator<<(std::ostream& os, vec2 v);
+
 double dot(const vec3& v1, const vec3& v2);
 vec3 cross(const vec3& v1, const vec3& v2);
+
+std::ostream& operator<<(std::ostream& os, vec3 v);

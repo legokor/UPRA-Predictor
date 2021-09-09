@@ -16,7 +16,7 @@ const auto cmd_result_info = "[ii] ";
 const auto cmd_result_warn = "[WW] ";
 const auto cmd_result_err = "[EE] ";
 
-constexpr const bool json_output = true;
+constexpr const bool json_output = false;
 
 void newflight(const std::string& flightname, BalloonProperties bprops, std::unique_ptr<WeatherData> wdata) {
     auto flight = std::make_unique<BalloonFlight>(bprops, std::move(wdata));

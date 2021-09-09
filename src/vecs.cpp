@@ -22,3 +22,13 @@ vec3 cross(const vec3& v1, const vec3& v2) {
 				v1.z * v2.x - v1.x * v2.z,
 				v1.x * v2.y - v1.y * v2.x);
 }
+
+std::ostream& operator<<(std::ostream& os, vec2 v) {
+    os << v.x << ',' << v.y;
+    return os;
+}
+
+std::ostream& operator<<(std::ostream& os, vec3 v) {
+    os << v.x << ',' << v.y << ',' << v.z;
+    return os;
+}
