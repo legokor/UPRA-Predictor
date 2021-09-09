@@ -19,6 +19,8 @@ class BalloonFlight {
     /// Tényleges vett ballonadatok
     std::vector<std::pair<units::time_point, coords>> balloonData;
 
+    std::vector<std::pair<std::string, double>> balloonPropChangesAtBurst;
+
     /// Éppen emelkedünk-e
     bool isAscent;
     /// Emelkedési sebesség, repülés kezdetén OMSZ adatokból és saját előzetes adatokból becsült
@@ -38,15 +40,17 @@ public:
     double getBalloonProp(std::string propName) { return balloonProps.getProp(propName); }
     void setBalloonProp(std::string propName, double val) { balloonProps.setProp(propName, val); }
 
+    void scheduleBalloonPropChangeAtBurst(std::string propName, double value);
+
     /// Új predikciós adatpont számítása az előzőből és a rendelkezésre álló adatokból
-    coords predictNext(coords lastData, units::time dt, bool isAscent);
+    coords predictNext(BalloonProperties props, coords lastData, units::time dt, bool isAscent);
 
     /// Új predikció készítése a legutóbbi tényleges mért adatból
     std::vector<std::pair<units::time_point, coords>> predict(units::time timeStep);
 
 private:
     /// Emelkedési sebesség elkérése az adott magasságon
-    units::speed getAscentVel(units::height h);
+    units::speed getAscentVel(BalloonProperties props, units::height h);
     /// Ereszkedési sebesség elkérése az adott magasságon
-    units::speed getDescentVel(units::height h);
+    units::speed getDescentVel(BalloonProperties props, units::height h);
 };

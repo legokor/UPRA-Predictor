@@ -42,9 +42,13 @@ void BalloonFlight::recieveBalloonData(units::time_point t, coords loc) {
     balloonData.push_back(std::make_pair(t, loc));
 }
 
-coords BalloonFlight::predictNext(coords lastLoc, units::time dt, bool isAscent) {
+void BalloonFlight::scheduleBalloonPropChangeAtBurst(std::string propName, double value) {
+    balloonPropChangesAtBurst.push_back({propName, value});
+}
+
+coords BalloonFlight::predictNext(BalloonProperties props, coords lastLoc, units::time dt, bool isAscent) {
     coords newLoc = lastLoc + wdata->windVelAt(lastLoc.alt) * (double) dt;
-    newLoc.alt = newLoc.alt + (isAscent ? getAscentVel(lastLoc.alt) : getDescentVel(lastLoc.alt)) * dt;
+    newLoc.alt = newLoc.alt + (isAscent ? getAscentVel(props, lastLoc.alt) : getDescentVel(props, lastLoc.alt)) * dt;
     return newLoc;
 }
 
@@ -52,11 +56,15 @@ std::vector<std::pair<units::time_point, coords>> BalloonFlight::predict(units::
     std::vector<std::pair<units::time_point, coords>> prediction;
     auto currentPoint = balloonData.back(); //Start from last recieved location
     bool isSimulatedAscent = isAscent;
+    BalloonProperties simulatedBalloonProps = balloonProps;
 
     while (isSimulatedAscent || currentPoint.second.alt > units::height(0.0)) {
-        coords newLoc = predictNext(currentPoint.second, timeStep, isSimulatedAscent);
+        coords newLoc = predictNext(simulatedBalloonProps, currentPoint.second, timeStep, isSimulatedAscent);
         if (isSimulatedAscent && newLoc.alt >= expectedBurstAlt) {
             isSimulatedAscent = false;
+            for (auto [propName, value] : balloonPropChangesAtBurst) {
+                simulatedBalloonProps.setProp(propName, value);
+            }
         }
         currentPoint = std::make_pair(currentPoint.first + timeStep, newLoc);
         prediction.push_back(currentPoint);
@@ -64,14 +72,14 @@ std::vector<std::pair<units::time_point, coords>> BalloonFlight::predict(units::
     return prediction;
 }
 
-units::speed BalloonFlight::getAscentVel(units::height h) {
+units::speed BalloonFlight::getAscentVel(BalloonProperties props, units::height h) {
     return ascentVel;
 }
 
-units::speed BalloonFlight::getDescentVel(units::height h) {
+units::speed BalloonFlight::getDescentVel(BalloonProperties props, units::height h) {
     return -sqrt(double(
-        (balloonProps.parachute_dry_mass + balloonProps.payload_dry_mass) * G
+        (props.parachute_dry_mass + props.payload_dry_mass) * G
         /
-        ( wdata->airDensityAt(h) * balloonProps.parachute_drag_c * balloonProps.parachute_area ) * 2
+        ( wdata->airDensityAt(h) * props.parachute_drag_c * props.parachute_area ) * 2
     ));
 }

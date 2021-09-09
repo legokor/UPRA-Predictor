@@ -112,6 +112,24 @@ void cmd_balloonprop_set_json(const json& cmd) {
     std::cout << out;
 }
 
+void balloonprop_set_at_burst(const std::string& flightname, const std::string& propName, double value) {
+    flights[flightname]->scheduleBalloonPropChangeAtBurst(propName, value);
+}
+
+void cmd_balloonprop_set_at_burst(const std::vector<std::string>& args) {
+    balloonprop_set_at_burst(args.at(1), args.at(2), std::stod(args.at(3)));
+    std::cout << cmd_result_ok << "Scheduled balloon property set at burst";
+}
+
+void cmd_balloonprop_set_at_burst_json(const json& cmd) {
+    json bprops = cmd.at("bprops");
+    for (json::iterator bprop = bprops.begin(); bprop != bprops.end(); ++bprop) {
+        balloonprop_set_at_burst(cmd.at("flightname").get<std::string>(), bprop.key(), bprop.value());
+    }
+    json out = { {"success", true} };
+    std::cout << out;
+}
+
 auto predict(const std::string& flightname, units::time timestep = 5) {
     return flights[flightname]->predict(timestep);
 }
@@ -188,6 +206,7 @@ const std::map<std::string, std::function<void(const std::vector<std::string>&)>
     {"senduprapacket", cmd_recvuprapacket},
     {"balloonprop-get", cmd_balloonprop_get},
     {"balloonprop-set", cmd_balloonprop_set},
+    {"balloonprop-set-at-burst", cmd_balloonprop_set_at_burst},
     {"predict", cmd_predict},
     {"endflight", cmd_endflight}
 };
@@ -197,6 +216,7 @@ const std::map<std::string, std::function<void(const json&)>> commands_json = {
     {"senduprapacket", cmd_recvuprapacket_json},
     {"balloonprop-get", cmd_balloonprop_get_json},
     {"balloonprop-set", cmd_balloonprop_set_json},
+    {"balloonprop-set-at-burst", cmd_balloonprop_set_at_burst_json},
     {"predict", cmd_predict_json},
     {"endflight", cmd_endflight_json}
 };
